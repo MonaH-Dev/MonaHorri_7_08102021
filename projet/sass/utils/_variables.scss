@@ -1,0 +1,11 @@
+/* COLORS */
+$color-primary: #D04F4F;
+$color-ingredient: #3282F7;
+$color-appareil: #68D9A4;
+$color-ustensile: #ED6454;
+$color-bg: #E7E7E7;
+
+/* BORDERS */
+@mixin bradius($radius: 5px) {
+ border-radius: $radius;
+}

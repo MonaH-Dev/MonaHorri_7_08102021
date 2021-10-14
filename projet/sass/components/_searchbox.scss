@@ -1,0 +1,14 @@
+.searchbox {
+ height: 60px;
+ background-color: $color-bg;
+ border-radius: $radius;
+}
+
+input[name="idea"] {
+ width: 500px;
+ height: 40px;
+ margin: auto 20px;
+ background-color:$color-bg;
+ color: white;
+ border: none;
+}
