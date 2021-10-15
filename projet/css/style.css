@@ -1,18 +1,76 @@
-/* Error: Undefined variable.
- *   ,
- * 4 |  border-radius: $radius;
- *   |                 ^^^^^^^
- *   '
- *   projet\sass\components\_searchbox.scss 4:17  @import
- *   projet\sass\main.scss 8:9                    root stylesheet */
-
-body::before {
-  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
-      "Droid Sans Mono", monospace, monospace;
-  white-space: pre;
-  display: block;
-  padding: 1em;
-  margin-bottom: 1em;
-  border-bottom: 2px solid black;
-  content: "Error: Undefined variable.\a   \2577 \a 4 \2502   border-radius: $radius;\d\a   \2502                  ^^^^^^^\a   \2575 \a   projet\\sass\\components\\_searchbox.scss 4:17  @import\a   projet\\sass\\main.scss 8:9                    root stylesheet";
+/* COLORS */
+/* BORDERS */
+/* FONTS */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+body {
+  font-family: "Lato";
+  margin: 10px 50px;
 }
+
+.searchbox {
+  height: 60px;
+  max-width: 1240px;
+  background-color: #E7E7E7;
+  border-radius: 5px 5px 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.searchbox__icon {
+  margin: auto 20px;
+}
+
+input[name=idea] {
+  width: 500px;
+  height: 40px;
+  margin: auto 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.TheRecipes {
+  margin-top: 20px;
+}
+
+.recipe {
+  width: 380px;
+  height: 365px;
+  border-radius: 5px 5px 5px 5px;
+}
+.recipe .recipePic {
+  height: 178px;
+  background: #c1c1c1;
+  border-radius: 5px 5px 0 0;
+}
+.recipe .recipePrev {
+  border-radius: 0 0 5px 5px;
+  background-color: #E7E7E7;
+  padding: 20px;
+}
+.recipe h2 {
+  margin: 0;
+}
+
+.recipe-details {
+  display: flex;
+}
+
+.recipe-details__ingredient, .recipe-details__preparation {
+  height: 105px;
+  width: 170px;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-family: "DM Sans";
+  font-weight: bold;
+  font-size: 36px;
+  margin-top: 0;
+  line-height: 47px;
+  color: #D04F4F;
+}
+
+/*# sourceMappingURL=style.css.map */
