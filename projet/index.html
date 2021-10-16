@@ -1,61 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Les petits plats - accueil</title>
 
-    <link rel="stylesheet" href="../projet/css/style.css">
-</head>
+    <link rel="stylesheet" href="../projet/css/style.css" />
+  </head>
 
-    <body>
-<!-- HEADER ------------------------------>
-      <header>
-        <div class="brand">
-          <img src="../projet/img/logo.svg" alt="Logo Les petits plats" />
-          <h1 class="brand__name">Les petits plats</h1>
-        </div>
-      </header>
-<!-- SEARCH BOX ------------------------->
-      <div class="searchbox">
-        <input type="research" name="idea" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" maxlength="200"/>
-        <img class="searchbox__icon" src="../projet/img/search.png" alt="Icon Search">
+  <body>
+    <!-- HEADER ------------------------------>
+    <header>
+      <div class="brand">
+        <img src="../projet/img/logo.svg" alt="Logo Les petits plats" />
+        <h1 class="brand__name">Les petits plats</h1>
       </div>
+    </header>
+    <!-- SEARCH BOX ------------------------->
+    <div class="searchbox">
+      <input
+        type="research"
+        name="idea"
+        placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette"
+        maxlength="200"
+      />
+      <img
+        class="searchbox__icon"
+        src="../projet/img/search.png"
+        alt="Icon Search"
+      />
+    </div>
 
-<!-- SELECTED --------------------------->
-<!-- LISTS ------------------------------>
-<!-- THE RECIPES ------------------------>
-      <section class="TheRecipes">
-          <article class="recipe">
-              <div class="recipePic"></div>
-              <div class="recipePrev">
-                  <div class="recipe-prez">
-                      <h2>Limonade de Coco</h2>
-                      <div class="recipe-prez__timing">
-                          <img class="recipe-prez__timing--icon" src="../projet/img/time.png" alt="timer icon">
-                          <p class="recipe-prez__timing--duration">10 min</p>
-                      </div>
-                  </div>
-                  <div class="recipe-details">
-                      <div class="recipe-details__ingredient">
-                        Lait de coco: 400ml <br>
-                        Jus de citron: 2 <br>
-                        Créme de coco: 4 cuillères <br>
-                        Sucre: 20g <br>
-                        Glaçons: 2 <br>
-                      </div>
-                      <div class="recipe-details__preparation">
-                        Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée
-                      </div>
-                  </div>
-              </div>
-          </article>
-      </section>
+    <!-- SELECTED --------------------------->
+    <!-- LISTS ------------------------------>
+    <!-- THE RECIPES ------------------------>
+    <section class="TheRecipes">
+      <article class="recipe">
+        <div class="recipePic"></div>
+        <div class="recipePrev">
+          <div class="recipe-prez">
+            <h2>Limonade de Coco</h2>
+            <div class="recipe-prez__timing">
+              <img
+                class="recipe-prez__timing--icon"
+                src="../projet/img/time.svg"
+                alt="timer icon"
+              />
+              <p class="recipe-prez__timing--duration">10 min</p>
+            </div>
+          </div>
+          <div class="recipe-details">
+            <div class="recipe-details__ingredient">
+              <ul>
+                <li>
+                  <strong class="OneIgdt">Lait de coco</strong>: 400ml
+                  <p class="QtIgdt">400ml</p>
+                </li>
+                <li>Jus de citron: 2</li>
+                <li>Créme de coco: 4 cuillères</li>
+                <li>Sucre: 20g</li>
+                <li>Glaçons: 2</li>
+              </ul>
+            </div>
+            <div class="recipe-details__preparation">
+              Mettre les glaçons à votre goût dans le blender, ajouter le lait,
+              la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à
+              avoir la consistence désirée
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="recipe">
+        <div class="recipePic"></div>
+        <div class="recipePrev">
+          <div class="recipe-prez">
+            <h2>Poisson Cru à la tahitienne</h2>
+            <div class="recipe-prez__timing">
+              <img
+                class="recipe-prez__timing--icon"
+                src="../projet/img/time.svg"
+                alt="timer icon"
+              />
+              <p class="recipe-prez__timing--duration">60 min</p>
+            </div>
+          </div>
+          <div class="recipe-details">
+            <div class="recipe-details__ingredient">
+              Thon Rouge (ou blanc): 200g <br />
+              Concombre: 1 <br />
+              Tomate: 2 <br />
+              Carotte: 1 <br />
+              Citron Vert: 5 <br />
+              Lait de coco: 100ml <br />
+            </div>
+            <div class="recipe-details__preparation">
+              Découper le thon en dés, mettre dans un plat et recouvrir de jus
+              de citron vert (mieux vaut prendre un plat large et peu profond).
+              Laisser reposer au réfrigérateur au moins 2 heures. ...
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="recipe">
+        <div class="recipePic"></div>
+        <div class="recipePrev">
+          <div class="recipe-prez">
+            <h2>Poulet coco réunionnais</h2>
+            <div class="recipe-prez__timing">
+              <img
+                class="recipe-prez__timing--icon"
+                src="../projet/img/time.svg"
+                alt="timer icon"
+              />
+              <p class="recipe-prez__timing--duration">80 min</p>
+            </div>
+          </div>
+          <div class="recipe-details">
+            <div class="recipe-details__ingredient">
+              Poulet : 1 <br />
+              Lait de coco: 400ml <br />
+              Coulis de tomate: 25cl <br />
+              Oignon: 1 <br />
+              Poivron rouge: 1 <br />
+              Huile d'olive <br />
+            </div>
+            <div class="recipe-details__preparation">
+              Découper le poulet en morceaux, les faire dorer dans une cocotte
+              avec de l'huile d'olive. Salez et poivrez. Une fois doré, laisser
+              cuire en ajoutant de l'eau. Au bout de 30 minutes, ajouter le
+              coulis de tomate, ...
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
 
-
-        <script src="./recipes.js"></script>
-        <script src="./index.js"></script>
-    </body>
-
+    <script src="./recipes.js"></script>
+    <script src="./index.js"></script>
+  </body>
 </html>

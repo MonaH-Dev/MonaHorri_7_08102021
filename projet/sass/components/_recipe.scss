@@ -1,34 +1,62 @@
 .TheRecipes {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .recipe {
-  width: 380px;
-  height: 365px;
+  width: 410px;
+  // height: 365px;
+  height: max-content;
   @include bradius;
   .recipePic {
     height: 178px;
     background: darken($color-bg, 15%);
-    @include bradius (5px,5px,0,0);
+    @include bradius(5px, 5px, 0, 0);
   }
   .recipePrev {
-    @include bradius (0,0,5px,5px);
+    @include bradius(0, 0, 5px, 5px);
     background-color: $color-bg;
     padding: 20px;
+    font-size: x-small;
+    font-weight: normal;
   }
   h2 {
     margin: 0;
   }
 }
 
-
+.recipe-prez {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  &__timing {
+    display: flex;
+    align-items: center;
+    & img {
+      height: 20px;
+      margin-right: 5px;
+    }
+    & p {
+      margin: 0;
+      align-self: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+  }
+}
 
 .recipe-details {
   display: flex;
+  &__ingredient ul {
+    list-style-type: none;
+    padding: 0;
+  }
 }
 
-.recipe-details__ingredient, .recipe-details__preparation {
+.recipe-details__ingredient,
+.recipe-details__preparation {
   height: 105px;
   width: 170px;
-
 }

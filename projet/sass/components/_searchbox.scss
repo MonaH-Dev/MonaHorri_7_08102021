@@ -1,20 +1,20 @@
 .searchbox {
- height: 60px;
- max-width: 1240px;
- background-color: $color-bg;
- @include bradius;
- display: flex;
- align-items: center;
- justify-content: space-between;
- &__icon {
-  margin: auto 20px;
- }
+  height: 60px;
+  width: 100%;
+  background-color: $color-bg;
+  @include bradius;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &__icon {
+    margin: auto 20px;
+  }
 }
 
 input[name="idea"] {
- width: 500px;
- height: 40px;
- margin: auto 20px;
- background-color: transparent;
- border: none;
+  width: 500px;
+  height: 40px;
+  margin: auto 20px;
+  background-color: transparent;
+  border: none;
 }

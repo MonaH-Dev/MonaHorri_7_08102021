@@ -9,7 +9,7 @@ body {
 
 .searchbox {
   height: 60px;
-  max-width: 1240px;
+  width: 100%;
   background-color: #E7E7E7;
   border-radius: 5px 5px 5px 5px;
   display: flex;
@@ -29,12 +29,14 @@ input[name=idea] {
 }
 
 .TheRecipes {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .recipe {
-  width: 380px;
-  height: 365px;
+  width: 410px;
+  height: max-content;
   border-radius: 5px 5px 5px 5px;
 }
 .recipe .recipePic {
@@ -46,16 +48,44 @@ input[name=idea] {
   border-radius: 0 0 5px 5px;
   background-color: #E7E7E7;
   padding: 20px;
+  font-size: x-small;
+  font-weight: normal;
 }
 .recipe h2 {
   margin: 0;
 }
 
+.recipe-prez {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.recipe-prez__timing {
+  display: flex;
+  align-items: center;
+}
+.recipe-prez__timing img {
+  height: 20px;
+  margin-right: 5px;
+}
+.recipe-prez__timing p {
+  margin: 0;
+  align-self: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
 .recipe-details {
   display: flex;
 }
+.recipe-details__ingredient ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-.recipe-details__ingredient, .recipe-details__preparation {
+.recipe-details__ingredient,
+.recipe-details__preparation {
   height: 105px;
   width: 170px;
 }
