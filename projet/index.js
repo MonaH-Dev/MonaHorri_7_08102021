@@ -1,5 +1,6 @@
 const recipeCtr = document.querySelector(".TheRecipes");
 
+//#region FONCTION TO ADD HTML (in TheRecipes)
 function addElt(recipe) {
   let innerHTML = `<article class="recipe">
   <div class="recipePic"></div>
@@ -37,26 +38,32 @@ function addElt(recipe) {
   `;
   recipeCtr.innerHTML += innerHTML;
 }
+//#endregion
 
 //#region CARACTÈRES TAPÉS DANS LA BARRE DE RECHERCHE
 console.log(recipes[0]);
 
-const $seachField = document.querySelector(".searchbox input");
 // memo : faire commencer par "$" les elt HTML
-$seachField.addEventListener("input", getSearchResult);
+const $seachField = document.querySelector(".searchbox input");
 
-function getSearchResult(e) {
-  const searchText = e.target.value;
-  if (searchText.length > 3) {
-    const filterArray = [];
+$seachField.addEventListener("input", function (e) {
+  getSearchResult(e.target.value);
+  console.log("Event flag");
+});
+
+getSearchResult();
+
+function getSearchResult(inputTxt = "") {
+  if (inputTxt.length > 3 || inputTxt == "") {
+    recipeCtr.innerHTML = "";
     for (let i = 0; i < recipes.length; i++) {
       // console.log(recipes[i]);
       if (
-        recipeTextMatchWithSearchText(recipes[i].name, searchText) ||
-        recipeTextMatchWithSearchText(recipes[i].description, searchText) ||
-        recipeIngredientsMatchWithSearchText(recipes[i].ingredients, searchText)
+        // Si test = "Mot" & "" --> Match = true
+        recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
+        recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
+        recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
       ) {
-        filterArray.push(recipes[i]);
         addElt(recipes[i]);
       }
     }
@@ -64,7 +71,7 @@ function getSearchResult(e) {
 }
 
 function recipeTextMatchWithSearchText(recipeText, searchText) {
-  return recipeText.toLowerCase().match(searchText);
+  return recipeText.toLowerCase().match(searchText); // -> boolean
 }
 
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
@@ -75,4 +82,8 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   }
   return false;
 }
+// Premier lancement
+getSearchResult();
+//console.log("Start flag");
+
 //#endregion
