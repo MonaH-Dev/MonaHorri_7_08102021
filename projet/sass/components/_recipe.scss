@@ -1,13 +1,14 @@
 .TheRecipes {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 20px;
 }
 
 .recipe {
   width: 410px;
   // height: 365px;
   height: max-content;
+  margin: 30px 0;
   @include bradius;
   .recipePic {
     height: 178px;
@@ -57,6 +58,11 @@
 
 .recipe-details__ingredient,
 .recipe-details__preparation {
-  height: 105px;
+  height: 110px;
   width: 170px;
+  // Pour cacher le text et mettre des point de suspension :
+  display: -webkit-box;
+  -webkit-line-clamp: 9;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
