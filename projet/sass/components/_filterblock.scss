@@ -3,15 +3,21 @@
   display: flex;
 }
 
-.ListFilter input[type="research"] {
+.Block {
   height: 70px;
   width: 170px;
-  color: white;
+  @include bradius;
+  margin: 20px 20px 0 0;
+}
+.ListFilter input[type="research"] {
+  // height: 70px;
+  // width: 170px;
+  // color: white;
   font-weight: bold;
   text-indent: 10px;
-  @include bradius;
+  // @include bradius;
   border: none;
-  margin: 20px 20px 0 0;
+  // margin: 20px 20px 0 0;
 }
 
 .ListFilter input[type="research"]::placeholder {
@@ -22,21 +28,24 @@
   border: none;
 }
 
-input[name="ingredientsBlock"] {
+input[name="ingredientsBlock"],
+.ingredientsBlock {
   background: $color-ingredient;
 }
 
-input[name="appareilBlock"] {
+input[name="appareilBlock"],
+.appareilBlock {
   background: $color-appareil;
 }
 
-input[name="ustensilesBlock"] {
+input[name="ustensilesBlock"],
+.ustensilesBlock {
   background: $color-ustensile;
 }
 /*#endregion*/
 
 /* TRANSITIONS */ /*#region*/
-.ListFilter div input {
+.ListFilter div {
   transition: width 500ms, height 750ms;
   &:active,
   &:hover {

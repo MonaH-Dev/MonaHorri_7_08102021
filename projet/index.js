@@ -92,13 +92,13 @@ getSearchResult();
 //   document.getElementById("ingredientsList").classList.add("show");
 // }
 
-let $rechercherDsList = document.querySelector("#Block");
+let $rechercherDsList = document.querySelector(".Block");
 
 // if ($rechercherDsList) {
 // $rechercherDsList.addEventListener("click", showLists());
 // }
 // ---------------------------- 1er essai </
-$rechercherDsList.addEventListener("click", show_hide);
+$rechercherDsList.addEventListener("mouseover", show_hide);
 function show_hide() {
   var click = document.getElementById("ingredientsList");
   if (click.style.display === "none") {
@@ -107,6 +107,8 @@ function show_hide() {
     click.style.display = "none";
   }
 }
+
+// addEventListener("mouseover")
 
 //#region
 

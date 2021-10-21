@@ -105,15 +105,17 @@ input[name=idea] {
   display: flex;
 }
 
-.ListFilter input[type=research] {
+.Block {
   height: 70px;
   width: 170px;
-  color: white;
+  border-radius: 5px 5px 5px 5px;
+  margin: 20px 20px 0 0;
+}
+
+.ListFilter input[type=research] {
   font-weight: bold;
   text-indent: 10px;
-  border-radius: 5px 5px 5px 5px;
   border: none;
-  margin: 20px 20px 0 0;
 }
 
 .ListFilter input[type=research]::placeholder {
@@ -124,25 +126,28 @@ input[name=idea] {
   border: none;
 }
 
-input[name=ingredientsBlock] {
+input[name=ingredientsBlock],
+.ingredientsBlock {
   background: #3282F7;
 }
 
-input[name=appareilBlock] {
+input[name=appareilBlock],
+.appareilBlock {
   background: #68D9A4;
 }
 
-input[name=ustensilesBlock] {
+input[name=ustensilesBlock],
+.ustensilesBlock {
   background: #ED6454;
 }
 
 /*#endregion*/
 /* TRANSITIONS */
 /*#region*/
-.ListFilter div input {
+.ListFilter div {
   transition: width 500ms, height 750ms;
 }
-.ListFilter div input:active, .ListFilter div input:hover {
+.ListFilter div:active, .ListFilter div:hover {
   width: 400px;
   height: 300px;
 }
