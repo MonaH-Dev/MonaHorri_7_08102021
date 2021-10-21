@@ -1,3 +1,4 @@
+/* APPARENCE */ /*#region*/
 .ListFilter {
   display: flex;
 }
@@ -32,3 +33,44 @@ input[name="appareilBlock"] {
 input[name="ustensilesBlock"] {
   background: $color-ustensile;
 }
+/*#endregion*/
+
+/* TRANSITIONS */ /*#region*/
+.ListFilter div input {
+  transition: width 500ms, height 750ms;
+  &:hover {
+    width: 400px;
+    height: 300px;
+  }
+}
+// .ListFilter div :hover {
+//   width: 650px;
+//   height: 400px;
+//   transform: translateY(-4px) 500ms;
+// }
+
+/*#endregion*/
+
+/* CHEVRONS */ /*#region*/
+.chevron {
+  border-style: solid;
+  border-width: 0.25em 0.25em 0 0;
+  content: "";
+  display: inline-block;
+  height: 0.45em;
+  left: 0.15em;
+  position: relative;
+  top: 0.15em;
+  transform: rotate(-45deg);
+  vertical-align: top;
+  width: 0.45em;
+}
+
+.chevron.bottom {
+  top: 0;
+  transform: rotate(135deg);
+}
+/*#endregion*/
+
+/* XXXX */ /*#region*/
+/*#endregion*/

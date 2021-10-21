@@ -11,5 +11,6 @@ body {
 }
 
 *:focus {
+  // pour enlever le contour bleu des inputs
   outline: 0 !important;
 }
