@@ -1,0 +1,34 @@
+.ListFilter {
+  display: flex;
+}
+
+.ListFilter input[type="research"] {
+  height: 70px;
+  width: 170px;
+  color: white;
+  font-weight: bold;
+  text-indent: 10px;
+  @include bradius;
+  border: none;
+  margin: 20px 20px 0 0;
+}
+
+.ListFilter input[type="research"]::placeholder {
+  color: white;
+}
+
+.ListFilter div {
+  border: none;
+}
+
+input[name="ingredientsBlock"] {
+  background: $color-ingredient;
+}
+
+input[name="appareilBlock"] {
+  background: $color-appareil;
+}
+
+input[name="ustensilesBlock"] {
+  background: $color-ustensile;
+}
