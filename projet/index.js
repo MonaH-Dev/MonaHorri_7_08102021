@@ -86,4 +86,36 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
 getSearchResult();
 //console.log("Start flag");
 
+//#endregion VISUALISATION DES LISTES / FILTRES
+// ---------------------------- 1er essai
+// function showLists() {
+//   document.getElementById("ingredientsList").classList.add("show");
+// }
+
+let $rechercherDsList = document.querySelector("#Block");
+
+// if ($rechercherDsList) {
+// $rechercherDsList.addEventListener("click", showLists());
+// }
+// ---------------------------- 1er essai </
+$rechercherDsList.addEventListener("click", show_hide);
+function show_hide() {
+  var click = document.getElementById("ingredientsList");
+  if (click.style.display === "none") {
+    click.style.display = "block";
+  } else {
+    click.style.display = "none";
+  }
+}
+
+//#region
+
+//#endregion
+
+//#region
+
+//#endregion
+
+//#region
+
 //#endregion

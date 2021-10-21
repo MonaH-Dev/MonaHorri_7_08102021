@@ -38,6 +38,7 @@ input[name="ustensilesBlock"] {
 /* TRANSITIONS */ /*#region*/
 .ListFilter div input {
   transition: width 500ms, height 750ms;
+  &:active,
   &:hover {
     width: 400px;
     height: 300px;
@@ -48,6 +49,14 @@ input[name="ustensilesBlock"] {
 //   height: 400px;
 //   transform: translateY(-4px) 500ms;
 // }
+//-------- 1er essai
+// .show {
+//   display: block;
+// }
+//-------- 1er essai </
+#ingredientsList {
+  display: none;
+}
 
 /*#endregion*/
 

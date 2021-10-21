@@ -142,9 +142,13 @@ input[name=ustensilesBlock] {
 .ListFilter div input {
   transition: width 500ms, height 750ms;
 }
-.ListFilter div input:hover {
+.ListFilter div input:active, .ListFilter div input:hover {
   width: 400px;
   height: 300px;
+}
+
+#ingredientsList {
+  display: none;
 }
 
 /*#endregion*/
