@@ -41,7 +41,6 @@ function addElt(recipe) {
 //#endregion
 
 //#region CARACTÈRES TAPÉS DANS LA BARRE DE RECHERCHE
-console.log(recipes[0]);
 
 // memo : faire commencer par "$" les elt HTML
 const $seachField = document.querySelector(".searchbox input");
@@ -54,7 +53,7 @@ $seachField.addEventListener("input", function (e) {
 getSearchResult();
 
 function getSearchResult(inputTxt = "") {
-  if (inputTxt.length > 3 || inputTxt == "") {
+  if (inputTxt.length >= 3 || inputTxt == "") {
     recipeCtr.innerHTML = "";
     for (let i = 0; i < recipes.length; i++) {
       // console.log(recipes[i]);
@@ -86,7 +85,9 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
 getSearchResult();
 //console.log("Start flag");
 
-//#endregion VISUALISATION DES LISTES / FILTRES
+//#endregion
+
+//#region VISUALISATION DES LISTES / FILTRES
 // ---------------------------- 1er essai
 // function showLists() {
 //   document.getElementById("ingredientsList").classList.add("show");
@@ -98,19 +99,27 @@ let $rechercherDsList = document.querySelector(".Block");
 // $rechercherDsList.addEventListener("click", showLists());
 // }
 // ---------------------------- 1er essai </
+
+// ---------------------------- 2e essai
 $rechercherDsList.addEventListener("mouseover", show_hide);
 function show_hide() {
-  var click = document.getElementById("ingredientsList");
-  if (click.style.display === "none") {
-    click.style.display = "block";
+  var showElt = document.getElementById("ingredientsList");
+  if (showElt.style.display === "none") {
+    showElt.style.display = "block";
   } else {
-    click.style.display = "none";
+    showElt.style.display = "none";
   }
 }
+// ---------------------------- 2e essai </
 
-// addEventListener("mouseover")
+// $rechercherDsList.addEventListener("mouseover", show);
 
-//#region
+// function show() {
+//   var showElt = document.getElementById("ingredientsList");
+//   {
+//     showElt.style.display = "block";
+//   }
+// }
 
 //#endregion
 
