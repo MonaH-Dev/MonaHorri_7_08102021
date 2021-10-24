@@ -17,11 +17,14 @@
   text-indent: 10px;
   // @include bradius;
   border: none;
+  margin-top: 25px;
+  width: 80%;
   // margin: 20px 20px 0 0;
 }
 
 .ListFilter input[type="research"]::placeholder {
   color: white;
+  width: 100%;
 }
 
 .ListFilter div {
@@ -65,6 +68,10 @@ input[name="ustensilesBlock"],
 //-------- 1er essai </
 #ingredientsList {
   display: none;
+  a {
+    text-decoration: none;
+    color: white;
+  }
 }
 
 /*#endregion*/

@@ -116,10 +116,13 @@ input[name=idea] {
   font-weight: bold;
   text-indent: 10px;
   border: none;
+  margin-top: 25px;
+  width: 80%;
 }
 
 .ListFilter input[type=research]::placeholder {
   color: white;
+  width: 100%;
 }
 
 .ListFilter div {
@@ -154,6 +157,10 @@ input[name=ustensilesBlock],
 
 #ingredientsList {
   display: none;
+}
+#ingredientsList a {
+  text-decoration: none;
+  color: white;
 }
 
 /*#endregion*/

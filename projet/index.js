@@ -1,5 +1,12 @@
 const recipeCtr = document.querySelector(".TheRecipes");
 
+//#region CONSOLE.LOG
+
+// recipes[0].ingredients[3].unit;
+// console.log(recipes[0].ingredients[3].unit);
+
+//#endregion
+
 //#region FONCTION TO ADD HTML (in TheRecipes)
 function addElt(recipe) {
   let innerHTML = `<article class="recipe">
@@ -82,8 +89,6 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   }
   return false;
 }
-recipes[0].ingredients[3].unit;
-console.log(recipes[0].ingredients[3].unit);
 
 // Premier lancement de la fonction :
 // c'est la fonction par défaut,
@@ -128,8 +133,16 @@ function show_hide() {
 
 //#endregion
 
-//#region
-
+//#region CHANGE THE PLACEHOLDER
+placeholderText = document.querySelector('[placeholder="Ingrédients"]');
+function ph() {
+  placeholderText.setAttribute("placeholder", "Recherche un ingédient");
+}
+function phr() {
+  placeholderText.setAttribute("placeholder", "Ingrédients");
+}
+$rechercherDsList.addEventListener("mouseover", ph);
+$rechercherDsList.addEventListener("mouseout", phr);
 //#endregion
 
 //#region
