@@ -45,12 +45,11 @@ function addElt(recipe) {
 // memo : faire commencer par "$" les elt HTML
 const $seachField = document.querySelector(".searchbox input");
 
+// On écoute la valeur entrée dans la barre de recherche :
 $seachField.addEventListener("input", function (e) {
   getSearchResult(e.target.value);
   console.log("Event flag");
 });
-
-getSearchResult();
 
 function getSearchResult(inputTxt = "") {
   if (inputTxt.length >= 3 || inputTxt == "") {
@@ -68,12 +67,14 @@ function getSearchResult(inputTxt = "") {
     }
   }
 }
-
+// Fonctions de vérifs (nom et description), avec 2 paramètres,
+// le 2nd est mis en minuscule, puis comparé au 1er :
 function recipeTextMatchWithSearchText(recipeText, searchText) {
   return recipeText.toLowerCase().match(searchText); // -> boolean
 }
-
+// Pour la vérif. des ingrédients, on crée un boucle :
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+  console.log("Recipe ingredients", recipeIngredients);
   for (let i = 0; i < recipeIngredients.length; i++) {
     if (recipeIngredients[i].ingredient.toLowerCase().match(searchText)) {
       return true;
@@ -81,9 +82,13 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   }
   return false;
 }
-// Premier lancement
+recipes[0].ingredients[3].unit;
+console.log(recipes[0].ingredients[3].unit);
+
+// Premier lancement de la fonction :
+// c'est la fonction par défaut,
 getSearchResult();
-//console.log("Start flag");
+console.log("Start flag");
 
 //#endregion
 
