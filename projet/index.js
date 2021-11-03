@@ -115,7 +115,7 @@ $rechercherDsList.addEventListener("mouseover", show_hide);
 function show_hide() {
   var showElt = document.getElementById("ingredientsList");
   if (showElt.style.display === "none") {
-    showElt.style.display = "block";
+    showElt.style.display = "flex";
   } else {
     showElt.style.display = "none";
   }

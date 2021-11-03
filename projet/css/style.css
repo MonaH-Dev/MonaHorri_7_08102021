@@ -114,6 +114,7 @@ input[name=idea] {
   width: 170px;
   border-radius: 5px 5px 5px 5px;
   margin: 20px 20px 0 0;
+  position: relative;
 }
 
 .ListFilter input[type=research] {
@@ -161,6 +162,7 @@ input[name=ustensilesBlock],
 
 #ingredientsList {
   display: none;
+  flex-direction: column;
 }
 #ingredientsList a {
   text-decoration: none;
@@ -171,22 +173,17 @@ input[name=ustensilesBlock],
 /* CHEVRONS */
 /*#region*/
 .chevron {
-  border-style: solid;
-  border-width: 0.25em 0.25em 0 0;
-  content: "";
-  display: inline-block;
-  height: 0.45em;
-  left: 0.15em;
   position: relative;
-  top: 0.15em;
-  transform: rotate(-45deg);
-  vertical-align: top;
-  width: 0.45em;
+  top: 1.8em;
+  color: white;
+  position: absolute;
+  background-color: transparent;
+  border: none;
 }
 
 .chevron.bottom {
-  top: 0;
-  transform: rotate(135deg);
+  display: none;
+  transform: rotate(180deg);
 }
 
 /*#endregion*/
