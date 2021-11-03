@@ -57,16 +57,7 @@ input[name="ustensilesBlock"],
     height: 300px;
   }
 }
-// .ListFilter div :hover {
-//   width: 650px;
-//   height: 400px;
-//   transform: translateY(-4px) 500ms;
-// }
-//-------- 1er essai
-// .show {
-//   display: block;
-// }
-//-------- 1er essai </
+
 #ingredientsList {
   display: none;
   flex-direction: column;
@@ -75,6 +66,12 @@ input[name="ustensilesBlock"],
     color: white;
   }
 }
+
+//-------- 1er essai
+.show {
+  display: block;
+}
+//-------- 1er essai </
 
 /*#endregion*/
 

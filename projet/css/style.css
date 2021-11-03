@@ -169,6 +169,10 @@ input[name=ustensilesBlock],
   color: white;
 }
 
+.show {
+  display: block;
+}
+
 /*#endregion*/
 /* CHEVRONS */
 /*#region*/
