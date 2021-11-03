@@ -89,7 +89,9 @@ input[name="ustensilesBlock"],
   transform: rotate(0turn);
   transition: transform 550ms ease-in-out;
 }
-.ingredientsBlock {
+.ingredientsBlock,
+.appareilBlock,
+.ustensilesBlock {
   &:hover,
   &:active {
     cursor: pointer;

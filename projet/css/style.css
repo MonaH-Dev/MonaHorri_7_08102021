@@ -183,10 +183,18 @@ input[name=ustensilesBlock],
   transition: transform 550ms ease-in-out;
 }
 
-.ingredientsBlock:hover, .ingredientsBlock:active {
+.ingredientsBlock:hover, .ingredientsBlock:active,
+.appareilBlock:hover,
+.appareilBlock:active,
+.ustensilesBlock:hover,
+.ustensilesBlock:active {
   cursor: pointer;
 }
-.ingredientsBlock:hover .chevron, .ingredientsBlock:active .chevron {
+.ingredientsBlock:hover .chevron, .ingredientsBlock:active .chevron,
+.appareilBlock:hover .chevron,
+.appareilBlock:active .chevron,
+.ustensilesBlock:hover .chevron,
+.ustensilesBlock:active .chevron {
   transform: rotate(-0.5turn);
 }
 

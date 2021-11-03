@@ -102,9 +102,7 @@ console.log("Start flag");
 // function showLists() {
 //   document.getElementById("ingredientsList").classList.add("show");
 // }
-
 let $rechercherDsList = document.querySelector(".Block");
-
 // if ($rechercherDsList) {
 // $rechercherDsList.addEventListener("click", showLists());
 // }
@@ -122,27 +120,18 @@ function show_hide() {
 }
 // ---------------------------- 2e essai </
 
-// $rechercherDsList.addEventListener("mouseover", show);
-
-// function show() {
-//   var showElt = document.getElementById("ingredientsList");
-//   {
-//     showElt.style.display = "block";
-//   }
-// }
-
 //#endregion
 
 //#region CHANGE THE PLACEHOLDER
 placeholderText = document.querySelector('[placeholder="Ingrédients"]');
 function ph() {
-  placeholderText.setAttribute("placeholder", "Recherche un ingédient");
-}
-function phr() {
   placeholderText.setAttribute("placeholder", "Ingrédients");
 }
-$rechercherDsList.addEventListener("mouseover", ph);
-$rechercherDsList.addEventListener("mouseout", phr);
+function phr() {
+  placeholderText.setAttribute("placeholder", "Recherche un ingédient");
+}
+$rechercherDsList.addEventListener("mouseover", phr);
+$rechercherDsList.addEventListener("mouseout", ph);
 //#endregion
 
 //#region
