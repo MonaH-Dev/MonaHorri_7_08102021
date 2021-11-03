@@ -80,22 +80,22 @@ input[name="ustensilesBlock"],
 
 /* CHEVRONS */ /*#region*/
 .chevron {
-  //   border-style: solid;
-  //   border-width: 0.25em 0.25em 0 0;
-  //   content: "";
-  // display: inline-block;
-  //   height: 0.45em;
-  //   left: 0.15em;
   position: relative;
   top: 1.8em;
-  //   transform: rotate(-45deg);
-  //   vertical-align: top;
-  //   width: 0.45em;
   color: white;
-
   position: absolute;
   background-color: transparent;
   border: none;
+  transform: rotate(0turn);
+}
+.ingredientsBlock {
+  &:hover,
+  &:active {
+    cursor: pointer;
+    .chevron {
+      transform: rotate(0.5turn);
+    }
+  }
 }
 
 .chevron.bottom {

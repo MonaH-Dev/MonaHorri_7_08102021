@@ -179,6 +179,14 @@ input[name=ustensilesBlock],
   position: absolute;
   background-color: transparent;
   border: none;
+  transform: rotate(0turn);
+}
+
+.ingredientsBlock:hover, .ingredientsBlock:active {
+  cursor: pointer;
+}
+.ingredientsBlock:hover .chevron, .ingredientsBlock:active .chevron {
+  transform: rotate(0.5turn);
 }
 
 .chevron.bottom {
