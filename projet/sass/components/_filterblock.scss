@@ -87,20 +87,16 @@ input[name="ustensilesBlock"],
   background-color: transparent;
   border: none;
   transform: rotate(0turn);
+  transition: transform 550ms ease-in-out;
 }
 .ingredientsBlock {
   &:hover,
   &:active {
     cursor: pointer;
     .chevron {
-      transform: rotate(0.5turn);
+      transform: rotate(-0.5turn);
     }
   }
-}
-
-.chevron.bottom {
-  display: none;
-  transform: rotate(180deg);
 }
 /*#endregion*/
 

@@ -180,18 +180,14 @@ input[name=ustensilesBlock],
   background-color: transparent;
   border: none;
   transform: rotate(0turn);
+  transition: transform 550ms ease-in-out;
 }
 
 .ingredientsBlock:hover, .ingredientsBlock:active {
   cursor: pointer;
 }
 .ingredientsBlock:hover .chevron, .ingredientsBlock:active .chevron {
-  transform: rotate(0.5turn);
-}
-
-.chevron.bottom {
-  display: none;
-  transform: rotate(180deg);
+  transform: rotate(-0.5turn);
 }
 
 /*#endregion*/
