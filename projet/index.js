@@ -99,20 +99,9 @@ console.log("Start flag");
 
 //#region VISUALISATION DES LISTES / FILTRES
 
-// ---------------------------- 2e essai
-// $rechercherDsList.addEventListener("mouseover", show_hide);
-// function show_hide() {
-//   var showElt = document.getElementById("ingredientsList");
-//   if (showElt.style.display === "none") {
-//     showElt.style.display = "flex";
-//   } else {
-//     showElt.style.display = "none";
-//   }
-// }
-// ---------------------------- 2e essai </
-const listCtr = document.querySelector("#ingredientsList");
-const allChevrons = document.querySelectorAll(".chevron");
-allChevrons.forEach((ch) =>
+const $listCtr = document.querySelector("#ingredientsList");
+const $allChevrons = document.querySelectorAll(".chevron");
+$allChevrons.forEach((ch) =>
   ch.addEventListener("click", function (e) {
     let parentBlockId = e.target.closest(".Block").id;
     console.log(parentBlockId);
@@ -122,17 +111,18 @@ allChevrons.forEach((ch) =>
 
 // Peuple le champs de recherche avancée fourni en parametres
 function getAdvancedSearchFieldList(blockId) {
-  // 1 - Recuperer une liste de données en fonciton du type d'input ( ingredients, appareils, ustensils )
+  // 1 - Récuperer une liste de données en fonction du type d'input ( ingredients, appareils, ustensils )
   let rawData = [];
   switch (blockId) {
     case "ingredientsBlock":
       recipes.forEach((r) => {
         rawData.push(...r.ingredients.map((i) => i.ingredient));
+        // "..." permet de recuperer le contenu du tableau plutot que le tableau lui meme
       });
       break;
     case "appareilBlock":
       recipes.forEach((r) => {
-        rawData.push(r.appliance); // "..." permet de recuperer le contenu du tableau plutot que le tableau lui meme
+        rawData.push(r.appliance);
       });
       break;
     case "ustensilesBlock":
@@ -146,10 +136,10 @@ function getAdvancedSearchFieldList(blockId) {
   console.log(data);
   // 3 - Filtrer les données selon la recherche courante
   // 4 - Peupler le champs de recherche avancée correspondant
-  addIngList();
+  addEltList();
 }
 
-function addIngList(ingredient) {
+function addEltList(eltlist) {
   let innerHTML;
   // for (let i = 0; i < recipes.ingredients.length; i++) {
   //   innerHTML += `<a>${recipes.ingredients[i].ingredient}</a>`;
@@ -162,7 +152,7 @@ function addIngList(ingredient) {
 
   // recipeCtr.innerHTML += innerHTML;
 }
-addIngList();
+addEltList();
 
 //#endregion
 

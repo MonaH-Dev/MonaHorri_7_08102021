@@ -161,16 +161,11 @@ input[name=ustensilesBlock],
 }
 
 #ingredientsList {
-  display: none;
   flex-direction: column;
 }
 #ingredientsList a {
   text-decoration: none;
   color: white;
-}
-
-.show {
-  display: block;
 }
 
 /*#endregion*/
