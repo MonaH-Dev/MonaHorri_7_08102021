@@ -55,14 +55,14 @@ let filteredRecipes;
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"];
 // On écoute la valeur entrée dans la barre de recherche :
 $seachField.addEventListener("input", function (e) {
-  console.log("New input");
+  //console.log("New input");
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
   updateSearchResult(e.target.value);
   // 2 - Mettre a jour les Asf selon la liste de recettes affichée
   blockIds.forEach((id) => {
     updateAdvancedSearchField(id);
   });
-  console.log("Event flag");
+  //console.log("Event flag");
 });
 
 // Mets a jour les recettes selon l'input
@@ -145,7 +145,7 @@ function updateAdvancedSearchField(blockId) {
   }
   // 2 - Nettoyer la liste ( pas de doublons )
   let data = new Set(rawData);
-  console.log(`Updating ${blockId}`, data);
+  //console.log(`Updating ${blockId}`, data);
 
   // 3 - Peupler le champs de recherche avancée correspondant
   populateAsf(blockId, data);
@@ -182,6 +182,16 @@ function populateAsf(blockId, asfData) {
   });
 
   $asfRoot.innerHTML += htmlToInject;
+
+  // Ajouter un event sur chaque lien contenu dans un asfList
+  // 1 - Recuperer tous les liens
+  let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
+  // 2 - Ajouter un evenement sur chaque lien
+  $asfLinks.forEach((link) =>
+    link.addEventListener("click", function (e) {
+      console.log("Click on asf element", link);
+    })
+  );
 }
 
 //#endregion
