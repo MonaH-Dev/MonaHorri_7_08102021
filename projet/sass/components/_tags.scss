@@ -1,15 +1,16 @@
 .tags {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
 }
 
 .tag {
   @include bradius;
   background: grey;
-  margin-right: 10px;
   padding: 5px 15px;
   color: white;
   display: flex;
+  margin: 0 5px 5px 0;
 }
 
 .tag-txt {

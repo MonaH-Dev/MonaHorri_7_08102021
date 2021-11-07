@@ -184,12 +184,28 @@ function populateAsf(blockId, asfData) {
   $asfRoot.innerHTML += htmlToInject;
 
   // Ajouter un event sur chaque lien contenu dans un asfList
+  let currentTags = []; // Tags actifs
   // 1 - Recuperer tous les liens de l'ASF list courant
   let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
+  const $tagsCtr = document.querySelector(".tags");
   // 2 - Ajouter un evenement sur chaque lien
   $asfLinks.forEach((link) =>
     link.addEventListener("click", function (e) {
       console.log("Click on asf element", link);
+      // 1 - Recuperer le text du lien
+      let tagName = link.textContent;
+      console.log(tagName);
+      // 2 - Créer un nouveau tag
+      let $tag = document.createElement("div");
+      $tag.className = "tag";
+      $tag.innerHTML = `
+      <div class="tag-txt">${tagName}</div>
+      <img class="tag-img" src="../projet/img/cross.svg" alt="closetag"/>
+      `;
+      // 3 - Ajouter tag a son conteneur (div)
+      $tagsCtr.appendChild($tag);
+      // 4 - Ajouter la reference du tag a la liste globale ()
+      currentTags.push($tag);
     })
   );
 }
