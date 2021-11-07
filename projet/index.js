@@ -184,7 +184,7 @@ function populateAsf(blockId, asfData) {
   $asfRoot.innerHTML += htmlToInject;
 
   // Ajouter un event sur chaque lien contenu dans un asfList
-  // 1 - Recuperer tous les liens
+  // 1 - Recuperer tous les liens de l'ASF list courant
   let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
   // 2 - Ajouter un evenement sur chaque lien
   $asfLinks.forEach((link) =>
