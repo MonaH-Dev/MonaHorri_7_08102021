@@ -1,5 +1,5 @@
 const recipeCtr = document.querySelector(".TheRecipes");
-
+let currentTags = []; // Tags actifs
 //#region CONSOLE.LOG
 
 // recipes[0].ingredients[3].unit;
@@ -28,7 +28,7 @@ function addElt(recipe) {
         <ul>`;
   for (let i = 0; i < recipe.ingredients.length; i++) {
     innerHTML += `<li>
-          <strong class="OneIgdt">${recipe.ingredients[i].ingredient}</strong>: 
+          <strong class="OneIgdt">${recipe.ingredients[i].ingredient}</strong>:
           ${recipe.ingredients[i].quantity || ""}${
       recipe.ingredients[i].unit || ""
     }
@@ -184,30 +184,55 @@ function populateAsf(blockId, asfData) {
   $asfRoot.innerHTML += htmlToInject;
 
   // Ajouter un event sur chaque lien contenu dans un asfList
-  let currentTags = []; // Tags actifs
+
   // 1 - Recuperer tous les liens de l'ASF list courant
   let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
   const $tagsCtr = document.querySelector(".tags");
   // 2 - Ajouter un evenement sur chaque lien
   $asfLinks.forEach((link) =>
     link.addEventListener("click", function (e) {
-      console.log("Click on asf element", link);
+      //console.log("Click on asf element", link);
       // 1 - Recuperer le text du lien
       let tagName = link.textContent;
-      console.log(tagName);
+
+      // 1b - Verifier si le tag est deja actif
+      if (currentTags.find((t) => t.innerText === tagName)) return;
+
+      // currentTags.forEach((ct) => {
+      //   console.log(`Comparing ${ct.textContent} with ${tagName}`);
+      // });
       // 2 - Créer un nouveau tag
       let $tag = document.createElement("div");
       $tag.className = "tag";
       $tag.innerHTML = `
       <div class="tag-txt">${tagName}</div>
-      <img class="tag-img" src="../projet/img/cross.svg" alt="closetag"/>
       `;
-      // 3 - Ajouter tag a son conteneur (div)
+
+      // 3 - Creer le button close du tag
+      let $tagCloseBtn = document.createElement("img");
+      $tagCloseBtn.className = "tag-img";
+      $tagCloseBtn.src = "../projet/img/cross.svg";
+      $tagCloseBtn.alt = "closetag";
+
+      // 4 - Ajouter le bt close au tag precedemment crée
+      $tag.appendChild($tagCloseBtn);
+
+      // 5 - Ajouter un event pour le tag crée
+      $tagCloseBtn.addEventListener("click", function (e) {
+        $tag.remove();
+        currentTags = currentTags.filter((ct) => ct != $tag);
+        console.log("Current tags = ", currentTags);
+      });
+
+      // 6 - Ajouter le tag a son conteneur (div)
       $tagsCtr.appendChild($tag);
-      // 4 - Ajouter la reference du tag a la liste globale ()
+      // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
+      console.log("Current tags = ", currentTags);
     })
   );
+
+  // Ajouter un event sur chaque bouton close de chaque tag
 }
 
 //#endregion
