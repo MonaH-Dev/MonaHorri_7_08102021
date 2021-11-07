@@ -1,5 +1,6 @@
 const recipeCtr = document.querySelector(".TheRecipes");
 let currentTags = []; // Tags actifs
+let mainTextInput = ""; // Texte dans la barre de recherche
 //#region CONSOLE.LOG
 
 // recipes[0].ingredients[3].unit;
@@ -56,8 +57,9 @@ const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"];
 // On écoute la valeur entrée dans la barre de recherche :
 $seachField.addEventListener("input", function (e) {
   //console.log("New input");
+  mainTextInput = e.target.value;
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
-  updateSearchResult(e.target.value);
+  updateSearchResult(mainTextInput);
   // 2 - Mettre a jour les Asf selon la liste de recettes affichée
   blockIds.forEach((id) => {
     updateAdvancedSearchField(id);
@@ -66,8 +68,15 @@ $seachField.addEventListener("input", function (e) {
 });
 
 // Mets a jour les recettes selon l'input
-function updateSearchResult(inputTxt = "") {
-  if (inputTxt.length >= 3 || inputTxt == "") {
+function updateSearchResult(inputTxt = "", tagMode = false) {
+  console.log(tagMode);
+  if (
+    tagMode ||
+    currentTags.length > 0 ||
+    inputTxt.length >= 3 ||
+    inputTxt == ""
+  ) {
+    console.log("Update UI");
     recipeCtr.innerHTML = "";
     filteredRecipes = [];
     for (let i = 0; i < recipes.length; i++) {
@@ -86,19 +95,44 @@ function updateSearchResult(inputTxt = "") {
   }
 }
 // Fonctions de vérifs (nom et description), avec 2 paramètres,
-// le 2nd est mis en minuscule, puis comparé au 1er :
+// le 2nd est mis en minuscule, puis comparé au 1er
+// Retourne true si les inputs (searchTxt && currentTags) correspondent a la recette courante
 function recipeTextMatchWithSearchText(recipeText, searchText) {
-  return recipeText.toLowerCase().match(searchText); // -> boolean
+  let wordsToCompare = [];
+  let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
+  // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
+  if (currentTags.length > 0) wordsToCompare.push(...currentTags);
+  // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
+  wordsToCompare.push(searchText);
+  // 3 - On compare la recette courante avec chq mot du tableau des mots a comparer
+  wordsToCompare.forEach((wtc) => {
+    // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
+    if (recipeText.toLowerCase().match(wtc)) result = true;
+  });
+  console.log("Matching = ", result);
+  return result; // -> boolean
 }
 // Pour la vérif. des ingrédients, on crée un boucle :
+// Retourne true si les inputs (searchTxt && currentTags) correspondent aux ings de la recette courante
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
-  //console.log("Recipe ingredients", recipeIngredients);
-  for (let i = 0; i < recipeIngredients.length; i++) {
-    if (recipeIngredients[i].ingredient.toLowerCase().match(searchText)) {
-      return true;
+  let wordsToCompare = [];
+  let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
+  // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
+  if (currentTags.length > 0) wordsToCompare.push(...currentTags);
+  // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
+  wordsToCompare.push(searchText);
+  // 3 - On compare la liste d'ingredients courant avec chq mot du tableau des mots a comparer
+  wordsToCompare.forEach((wtc) => {
+    // 3b - On parcours tous les ingredients
+    for (let i = 0; i < recipeIngredients.length; i++) {
+      // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
+      if (recipeIngredients[i].ingredient.toLowerCase().match(wtc)) {
+        return true;
+      }
     }
-  }
-  return false;
+  });
+  console.log("Matching = ", result);
+  return result;
 }
 
 // Premier lancement de la fonction :
@@ -192,15 +226,15 @@ function populateAsf(blockId, asfData) {
   $asfLinks.forEach((link) =>
     link.addEventListener("click", function (e) {
       //console.log("Click on asf element", link);
+      updateSearchResult(mainTextInput, true);
+
       // 1 - Recuperer le text du lien
       let tagName = link.textContent;
 
-      // 1b - Verifier si le tag est deja actif
+      // 1b - Verifier si le tag est deja actif, si oui arreter l'execution ici (return)
+      // find => Cherche un element dans une liste donnée qui correspond aux criteres
       if (currentTags.find((t) => t.innerText === tagName)) return;
 
-      // currentTags.forEach((ct) => {
-      //   console.log(`Comparing ${ct.textContent} with ${tagName}`);
-      // });
       // 2 - Créer un nouveau tag
       let $tag = document.createElement("div");
       $tag.className = "tag";
@@ -217,9 +251,10 @@ function populateAsf(blockId, asfData) {
       // 4 - Ajouter le bt close au tag precedemment crée
       $tag.appendChild($tagCloseBtn);
 
-      // 5 - Ajouter un event pour le tag crée
+      // 5 - Ajouter un event pour le tag créé (Close btn)
       $tagCloseBtn.addEventListener("click", function (e) {
         $tag.remove();
+        // filter : supprime dans une liste les elements ne correspondants pas aux criteres
         currentTags = currentTags.filter((ct) => ct != $tag);
         console.log("Current tags = ", currentTags);
       });
