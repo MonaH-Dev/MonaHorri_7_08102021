@@ -156,14 +156,15 @@ input[name=ustensilesBlock],
   transition: width 500ms, height 750ms;
 }
 .ListFilter div:active, .ListFilter div:hover {
-  width: 400px;
-  height: 300px;
+  min-width: 40em;
+  height: auto;
 }
 
-#ingredientsList {
+.asfList {
   flex-direction: column;
+  columns: 4 10em;
 }
-#ingredientsList a {
+.asfList a {
   text-decoration: none;
   color: white;
 }
@@ -201,6 +202,24 @@ input[name=ustensilesBlock],
 /* XXXX */
 /*#region*/
 /*#endregion*/
+.tags {
+  display: flex;
+  margin-top: 10px;
+}
+
+.tag {
+  border-radius: 5px 5px 5px 5px;
+  background: grey;
+  margin-right: 10px;
+  padding: 5px 15px;
+  color: white;
+  display: flex;
+}
+
+.tag-txt {
+  margin-right: 5px;
+}
+
 header {
   text-align: center;
 }

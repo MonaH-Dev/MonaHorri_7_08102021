@@ -1,0 +1,17 @@
+.tags {
+  display: flex;
+  margin-top: 10px;
+}
+
+.tag {
+  @include bradius;
+  background: grey;
+  margin-right: 10px;
+  padding: 5px 15px;
+  color: white;
+  display: flex;
+}
+
+.tag-txt {
+  margin-right: 5px;
+}

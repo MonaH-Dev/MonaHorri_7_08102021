@@ -53,17 +53,20 @@ input[name="ustensilesBlock"],
   transition: width 500ms, height 750ms;
   &:active,
   &:hover {
-    width: 400px;
-    height: 300px;
+    min-width: 40em;
+    height: auto;
+    // width: 400px;
+    // height: 300px;
   }
 }
 
-#ingredientsList {
+.asfList {
   flex-direction: column;
   a {
     text-decoration: none;
     color: white;
   }
+  columns: 4 10em;
 }
 
 /*#endregion*/
