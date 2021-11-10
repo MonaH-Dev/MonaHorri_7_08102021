@@ -5,11 +5,12 @@
 
 .Block {
   height: 70px;
-  width: 170px;
+  max-width: 500px;
   @include bradius;
   margin: 20px 20px 0 0;
   position: relative;
 }
+
 .ListFilter input[type="research"] {
   // height: 70px;
   // width: 170px;
@@ -33,35 +34,43 @@
 }
 
 input[name="ingredientsBlock"],
-.ingredientsBlock {
+.ingredientsBlock,
+.ingredientsBlock .asfList {
   background: $color-ingredient;
 }
 
 input[name="appareilBlock"],
-.appareilBlock {
+.appareilBlock,
+.appareilBlock .asfList {
   background: $color-appareil;
 }
 
 input[name="ustensilesBlock"],
-.ustensilesBlock {
+.ustensilesBlock,
+.ustensilesBlock .asfList {
   background: $color-ustensile;
 }
 /*#endregion*/
 
 /* TRANSITIONS */ /*#region*/
-.ListFilter div {
-  transition: width 500ms, height 750ms;
-  &:active,
-  &:hover {
-    min-width: 40em;
-    height: auto;
-    // width: 400px;
-    // height: 300px;
-  }
-}
+// .ListFilter div {
+//   transition: width 500ms, height 750ms;
+//   &:active,
+//   &:hover {
+//     min-width: 40em;
+//     height: auto;
+//     // width: 400px;
+//     // height: 300px;
+//   }
+// }
+// .ListFilter div {
+//   max-width: 400px;
+//   max-height: 300px;
+// }
 
 .asfList {
-  flex-direction: column;
+  // flex-direction: column;
+  @include bradius;
   a {
     text-decoration: none;
     color: white;

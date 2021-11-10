@@ -212,7 +212,7 @@ function populateAsf(blockId, asfData) {
   let htmlToInject = "";
   asfData.forEach((data) => {
     // console.log("DL = ", data);
-    htmlToInject += `<a href="#">${data}</a>`;
+    htmlToInject += `<a href="#">${data}</a><br>`;
   });
 
   $asfRoot.innerHTML += htmlToInject;

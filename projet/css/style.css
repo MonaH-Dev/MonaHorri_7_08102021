@@ -111,7 +111,7 @@ input[name=idea] {
 
 .Block {
   height: 70px;
-  width: 170px;
+  max-width: 500px;
   border-radius: 5px 5px 5px 5px;
   margin: 20px 20px 0 0;
   position: relative;
@@ -135,33 +135,28 @@ input[name=idea] {
 }
 
 input[name=ingredientsBlock],
-.ingredientsBlock {
+.ingredientsBlock,
+.ingredientsBlock .asfList {
   background: #3282F7;
 }
 
 input[name=appareilBlock],
-.appareilBlock {
+.appareilBlock,
+.appareilBlock .asfList {
   background: #68D9A4;
 }
 
 input[name=ustensilesBlock],
-.ustensilesBlock {
+.ustensilesBlock,
+.ustensilesBlock .asfList {
   background: #ED6454;
 }
 
 /*#endregion*/
 /* TRANSITIONS */
 /*#region*/
-.ListFilter div {
-  transition: width 500ms, height 750ms;
-}
-.ListFilter div:active, .ListFilter div:hover {
-  min-width: 40em;
-  height: auto;
-}
-
 .asfList {
-  flex-direction: column;
+  border-radius: 5px 5px 5px 5px;
   columns: 4 10em;
 }
 .asfList a {
@@ -204,16 +199,17 @@ input[name=ustensilesBlock],
 /*#endregion*/
 .tags {
   display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
 }
 
 .tag {
   border-radius: 5px 5px 5px 5px;
   background: grey;
-  margin-right: 10px;
   padding: 5px 15px;
   color: white;
   display: flex;
+  margin: 0 5px 5px 0;
 }
 
 .tag-txt {
