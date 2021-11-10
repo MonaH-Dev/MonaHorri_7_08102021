@@ -41,12 +41,12 @@ $allChevrons.forEach((ch) =>
 function updateSearchResult(inputTxt = "", tagMode = false) {
   // console.log(tagMode);
   if (
-    tagMode ||
+    tagMode || // par défaut -> si tagMode == true
     currentTags.length > 0 ||
     inputTxt.length >= 3 ||
     inputTxt == ""
   ) {
-    console.log("Update UI");
+    // console.log("Update UI");
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
     for (let i = 0; i < recipes.length; i++) {
