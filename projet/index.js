@@ -2,12 +2,15 @@
 // memo : faire commencer par "$" les elt HTML
 const $recipeCtr = document.querySelector(".TheRecipes"); //Ctr des recettes
 let currentTags = []; //Tags actifs
+let currentIngTags = []; //Tags actifs Ing
+let currentUstTags = []; //Tags actifs Use
+let currentAplTags = []; //Tags actifs Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
 const $seachField = document.querySelector(".searchbox input"); //Barre de recherche
 let filteredRecipes; //recettes filtrées
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"]; //tableau avec l'ID de chaque liste
 const $allChevrons = document.querySelectorAll(".chevron"); //tous les chevrons
-
+const $allBlocks = document.querySelectorAll(".Block"); //tous les blocks
 //#endregion
 
 //#region EVENT - BARRE DE RECHERCHE
@@ -28,18 +31,34 @@ $seachField.addEventListener("input", function (e) {
 //#region EVENT - CHEVRONS ET AUTRES ( !!!! A FAIRE !!!!! )
 $allChevrons.forEach((ch) =>
   ch.addEventListener("click", function (e) {
-    console.log("Chevron clicked");
+    // console.log("Chevron clicked");
     let parentBlockId = e.target.closest(".Block").id;
-    console.log(parentBlockId);
+    // console.log(parentBlockId);
     updateAdvancedSearchField(parentBlockId);
   })
 );
+// $allBlocks.forEach((bl) =>
+//   bl.addEventListener("mouseover", function (e) {
+//     let parentBlockId = e.target.closest(".Block").id;
+//     updateAdvancedSearchField(parentBlockId);
+//   })
+// );
+// Si on essaie de factoriser ces 2 events :
+// let events = [$allChevrons, $allBlocks];
+
+// events.forEach((ev) =>
+//   ev.addEventListener("click", function (e) {
+//     let parentBlockId = e.target.closest(".Block").id;
+//     updateAdvancedSearchField(parentBlockId);
+//   })
+// );
+
 //#endregion
 
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "", tagMode = false) {
-  // console.log(tagMode);
+  //console.log("Refresh UI");
   if (
     tagMode || // par défaut -> si tagMode == true
     currentTags.length > 0 ||
@@ -49,6 +68,7 @@ function updateSearchResult(inputTxt = "", tagMode = false) {
     // console.log("Update UI");
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
+    document.getElementById("msgaide").style.display = "block";
     for (let i = 0; i < recipes.length; i++) {
       // console.log(recipes[i]);
       if (
@@ -75,42 +95,61 @@ console.log("Start flag");
 // le 2nd est mis en minuscule, puis comparé au 1er
 // Retourne true si les inputs (searchTxt && currentTags) correspondent a la recette courante
 function recipeTextMatchWithSearchText(recipeText, searchText) {
-  let wordsToCompare = [];
-  let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
+  // let wordsToCompare = currentTags.map((tag) => tag.innerText);
+  // console.log("WTC= ", wordsToCompare);
+  // let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
   // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
-  if (currentTags.length > 0) wordsToCompare.push(...currentTags);
   // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
-  wordsToCompare.push(searchText);
+  // wordsToCompare.push(searchText);
   // 3 - On compare la recette courante avec chq mot du tableau des mots a comparer
-  wordsToCompare.forEach((wtc) => {
-    // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
-    if (recipeText.toLowerCase().match(wtc)) result = true;
-  });
-  console.log("Matching = ", result);
-  return result; // -> boolean
+  // wordsToCompare.forEach((wtc) => {
+  // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
+  return recipeText.toLowerCase().match(searchText);
+  // });
+  // console.log("Matching = ", result);
+  // return result; // -> boolean
 }
-// Pour la vérif. des ingrédients, on crée un boucle :
-// Retourne true si les inputs (searchTxt && currentTags) correspondent aux ings de la recette courante
+
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
-  let wordsToCompare = [];
-  let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
-  // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
-  if (currentTags.length > 0) wordsToCompare.push(...currentTags);
-  // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
-  wordsToCompare.push(searchText);
-  // 3 - On compare la liste d'ingredients courant avec chq mot du tableau des mots a comparer
-  wordsToCompare.forEach((wtc) => {
-    // 3b - On parcours tous les ingredients
-    for (let i = 0; i < recipeIngredients.length; i++) {
-      // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
-      if (recipeIngredients[i].ingredient.toLowerCase().match(wtc)) {
-        return true;
-      }
+  recipeIngredients.forEach((ing) => {
+    if (ing.ingredient.toLowerCase().match(searchText)) {
+      return true;
     }
   });
-  console.log("Matching = ", result);
-  return result;
+  return false;
 }
+// Ou
+// function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+//   recipeIngredients.forEach((ing) => {
+//     if (recipeTextMatchWithSearchText(ing.ingredient, searchText)) {
+//       return true;
+//     }
+//   });
+//   return false;
+// }
+
+// Pour la vérif. des ingrédients, on crée un boucle :
+// Retourne true si les inputs (searchTxt && currentTags) correspondent aux ings de la recette courante
+// function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+//   let wordsToCompare = [];
+//   let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
+//   // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
+//   if (currentTags.length > 0) wordsToCompare.push(...currentTags);
+//   // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
+//   wordsToCompare.push(searchText);
+//   // 3 - On compare la liste d'ingredients courant avec chq mot du tableau des mots a comparer
+//   wordsToCompare.forEach((wtc) => {
+//     // 3b - On parcours tous les ingredients
+//     for (let i = 0; i < recipeIngredients.length; i++) {
+//       // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
+//       if (recipeIngredients[i].ingredient.toLowerCase().match(wtc)) {
+//         return true;
+//       }
+//     }
+//   });
+//   console.log("Matching = ", result);
+//   return result;
+// }
 //#endregion
 
 //#region FONCTION - To add HTML (in TheRecipes)
@@ -187,6 +226,15 @@ function updateAdvancedSearchField(blockId) {
 
 //#region !!!!! A REORDONNER !!!!!! VISUALISATION DES LISTES / FILTRES
 
+function filteredbyIngTags() {
+  const filteredRecipes_ = [...filteredRecipes];
+  filteredRecipes.forEach((rec) => {
+    currentIngTags.forEach((tag) => {
+      if (rec.ingredient.toLowerCase().match(tag)) {
+      }
+    });
+  });
+}
 // Peupler un block ASF (selon blockID)
 // blockID : string servant à identifier le block à màj
 // asfData : liste de données selon le block à màj = set(rawData)
@@ -210,16 +258,31 @@ function populateAsf(blockId, asfData) {
   // Ajouter un event sur chaque lien contenu dans un asfList
 
   // 1 - Recuperer tous les liens de l'ASF list courant
-  let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
+  let $asfTags = document.querySelectorAll(`.${blockId} .asfList a`);
   const $tagsCtr = document.querySelector(".tags");
   // 2 - Ajouter un evenement sur chaque lien
-  $asfLinks.forEach((link) =>
-    link.addEventListener("click", function (e) {
+  $asfTags.forEach((tagLink) =>
+    tagLink.addEventListener("click", function (e) {
+      switch (blockId) {
+        case "ingredientsBlock":
+          currentIngTags.push(tagLink.innerText);
+          break;
+        case "appareilBlock":
+          filteredRecipes.forEach((r) => {
+            rawData.push(r.appliance);
+          });
+          break;
+        case "ustensilesBlock":
+          filteredRecipes.forEach((r) => {
+            rawData.push(...r.ustensils);
+          });
+          break;
+      }
+
       //console.log("Click on asf element", link);
-      updateSearchResult(mainTextInput, true);
 
       // 1 - Recuperer le text du lien
-      let tagName = link.textContent;
+      let tagName = tagLink.textContent;
 
       // 1b - Verifier si le tag est deja actif, si oui arreter l'execution ici (return)
       // find => Cherche un element dans une liste donnée qui correspond aux criteres
@@ -246,23 +309,33 @@ function populateAsf(blockId, asfData) {
         $tag.remove();
         // filter : supprime dans une liste les elements ne correspondants pas aux criteres
         currentTags = currentTags.filter((ct) => ct != $tag);
-        console.log("Current tags = ", currentTags);
+
+        console.log(
+          "Currenttts tags = ",
+          currentTags.map(($tag) => $tag.innerText)
+        );
       });
 
       // 6 - Ajouter le tag a son conteneur (div)
       $tagsCtr.appendChild($tag);
       // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
-      console.log("Current tags = ", currentTags);
+      console.log(
+        "Current tags = ",
+        currentTags.map(($tag) => $tag.innerText)
+      );
+      updateSearchResult(mainTextInput, true);
     })
   );
 
   // Ajouter un event sur chaque bouton close de chaque tag
 }
 
+function filterByIng(filteredIng, currentIngTags) {}
+
 //#endregion
 
-//#region CHANGE THE PLACEHOLDER ( !!!! code à revoir !!! )
+//#region CHANGE THE PLACEHOLDER ( !!!! code à revoir pr optimiser !!! )
 let $rechercherDsList = document.querySelector(".Block");
 placeholderText = document.querySelector('[placeholder="Ingrédients"]');
 function ph() {

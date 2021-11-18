@@ -103,6 +103,11 @@ input[name=idea] {
   overflow: hidden;
 }
 
+#msgaide {
+  margin-top: 20px;
+  display: none;
+}
+
 /* APPARENCE */
 /*#region*/
 .ListFilter {
