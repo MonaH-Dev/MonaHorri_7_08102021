@@ -58,30 +58,51 @@ $allChevrons.forEach((ch) =>
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "", tagMode = false) {
-  //console.log("Refresh UI");
+  console.log("Refresh UI");
   if (
     tagMode || // par défaut -> si tagMode == true
     currentTags.length > 0 ||
     inputTxt.length >= 3 ||
     inputTxt == ""
   ) {
-    // console.log("Update UI");
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
     document.getElementById("msgaide").style.display = "block";
     for (let i = 0; i < recipes.length; i++) {
+      let matching = false;
       // console.log(recipes[i]);
+      // 1 - Verification match avec searchBar -----------------------------
       if (
         // Si test = "Mot" & "" --> Match = true
         recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
         recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
         recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
       ) {
+        if (inputTxt == "") {
+          // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
+          console.log("tags count = ", currentTagsCount());
+          if (currentTagsCount() == 0) {
+            matching = true;
+          }
+          // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
+          else {
+            matching = false;
+          }
+        }
+      }
+      // 2 - Verification match avec tags -----------------------------------
+      if (recipeMatchingWithTags(recipes[i])) {
+        //console.log(`Tags matchings with`, recipes[i]);
+        matching = true;
+      }
+
+      // 3 - Si match avec searchBar ou tags --> Afficher la recette
+      if (matching) {
         addElt(recipes[i]);
         filteredRecipes.push(recipes[i]);
       }
     }
-    // console.log("Filtered Recipes ", filteredRecipes);
+    console.log("Filtered Recipes ", filteredRecipes);
   }
 }
 // Premier lancement de la fonction :
@@ -90,33 +111,36 @@ updateSearchResult();
 console.log("Start flag");
 //#endregion
 
+//#region FONCTION -
+// Retourne le nombre de tags affichées
+function currentTagsCount() {
+  let count = 0;
+  count +=
+    currentIngTags.length + currentAplTags.length + currentUstTags.length;
+  return count;
+}
+
+//#endregion
+
 //#region FONCTIONS - Chercher correspondance txt tapé VS autres
 // Fonctions de vérifs (nom et description), avec 2 paramètres,
 // le 2nd est mis en minuscule, puis comparé au 1er
-// Retourne true si les inputs (searchTxt && currentTags) correspondent a la recette courante
+// Retourne true si l'input searchTxt correspond a la recette courante
 function recipeTextMatchWithSearchText(recipeText, searchText) {
-  // let wordsToCompare = currentTags.map((tag) => tag.innerText);
-  // console.log("WTC= ", wordsToCompare);
-  // let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
-  // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
-  // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
-  // wordsToCompare.push(searchText);
-  // 3 - On compare la recette courante avec chq mot du tableau des mots a comparer
-  // wordsToCompare.forEach((wtc) => {
-  // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
-  return recipeText.toLowerCase().match(searchText);
-  // });
-  // console.log("Matching = ", result);
-  // return result; // -> boolean
+  let match = recipeText.toLowerCase().match(searchText);
+  //if (match) console.log(`${recipeText} matching with "${searchText}"`);
+  return match;
 }
 
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+  let match = false;
   recipeIngredients.forEach((ing) => {
     if (ing.ingredient.toLowerCase().match(searchText)) {
-      return true;
+      //console.log(`"${searchText}" matching with `, recipeIngredients);
+      match = true;
     }
   });
-  return false;
+  return match;
 }
 // Ou
 // function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
@@ -128,28 +152,32 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
 //   return false;
 // }
 
-// Pour la vérif. des ingrédients, on crée un boucle :
-// Retourne true si les inputs (searchTxt && currentTags) correspondent aux ings de la recette courante
-// function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
-//   let wordsToCompare = [];
-//   let result = false; // Resultat du test entre la recette et les mots a comparer (match = true, pas match = false)
-//   // 1 - Ajoute des tags au tableau des mots a comparer (si tags courant existants)
-//   if (currentTags.length > 0) wordsToCompare.push(...currentTags);
-//   // 2- Ajout du text de la barre de recherche au tableau des mots a comparer
-//   wordsToCompare.push(searchText);
-//   // 3 - On compare la liste d'ingredients courant avec chq mot du tableau des mots a comparer
-//   wordsToCompare.forEach((wtc) => {
-//     // 3b - On parcours tous les ingredients
-//     for (let i = 0; i < recipeIngredients.length; i++) {
-//       // 3b - Si la recette match avec un de mot du tableau --> Renvoie true
-//       if (recipeIngredients[i].ingredient.toLowerCase().match(wtc)) {
-//         return true;
-//       }
-//     }
-//   });
-//   console.log("Matching = ", result);
-//   return result;
-// }
+// Retourne vrai si la recette match avec un des tags courant
+function recipeMatchingWithTags(recipe) {
+  let match = false;
+  // Verif pour les 3 types de tags
+
+  // 1 - Verif des ingredients
+  // 1a - Parcours des ingredients de la recette courante
+  recipe.ingredients.forEach((ing) => {
+    // 1b - Si la liste des tags d'ings courants (currentIngTags) contient un des ingredients de la recette courante (recipe) --> match
+    if (currentIngTags.includes(ing.ingredient)) match = true;
+  });
+
+  // 2 - Verif des Appareils
+  // 2b - Si la liste des tags d'apl courants contient un des appareil de la recette courante (recipe) --> match
+  if (currentAplTags.includes(recipe.appliance)) match = true;
+
+  // 3 - Verif des Ustencils
+  // 3b - Si la liste des tags d'ust courants contient un des ustencils de la recette courante (recipe) --> match
+  recipe.ustensils.forEach((ust) => {
+    if (currentUstTags.includes(ust)) match = true;
+  });
+
+  if (match) console.log(`Tags matching with ${recipe.name}`);
+
+  return match;
+}
 //#endregion
 
 //#region FONCTION - To add HTML (in TheRecipes)
@@ -266,19 +294,18 @@ function populateAsf(blockId, asfData) {
       switch (blockId) {
         case "ingredientsBlock":
           currentIngTags.push(tagLink.innerText);
+          console.log("Ing tags = ", currentIngTags);
           break;
         case "appareilBlock":
-          filteredRecipes.forEach((r) => {
-            rawData.push(r.appliance);
-          });
+          currentAplTags.push(tagLink.innerText);
+          console.log("Aps tags = ", currentAplTags);
           break;
         case "ustensilesBlock":
-          filteredRecipes.forEach((r) => {
-            rawData.push(...r.ustensils);
-          });
+          currentUstTags.push(tagLink.innerText);
+          console.log("Ust tags = ", currentUstTags);
           break;
       }
-
+      //console.log("Aps tags = ");
       //console.log("Click on asf element", link);
 
       // 1 - Recuperer le text du lien
@@ -306,24 +333,32 @@ function populateAsf(blockId, asfData) {
 
       // 5 - Ajouter un event pour le tag créé (Close btn)
       $tagCloseBtn.addEventListener("click", function (e) {
-        $tag.remove();
-        // filter : supprime dans une liste les elements ne correspondants pas aux criteres
-        currentTags = currentTags.filter((ct) => ct != $tag);
+        // 5a - Identifier la liste a modifier
+        switch (blockId) {
+          case "ingredientsBlock":
+            currentIngTags = currentIngTags.filter((ing) => ing != tagName);
+            console.log("Ing tags = ", currentIngTags);
+            break;
+          case "appareilBlock":
+            currentAplTags = currentAplTags.filter((apl) => apl != tagName);
+            console.log("Apl tags = ", currentAplTags);
+            break;
+          case "ustensilesBlock":
+            currentUstTags = currentUstTags.filter((ust) => ust != tagName);
+            console.log("Ust tags = ", currentUstTags);
+            break;
+        }
 
-        console.log(
-          "Currenttts tags = ",
-          currentTags.map(($tag) => $tag.innerText)
-        );
+        $tag.remove();
+        updateSearchResult(mainTextInput, true);
+        // filter : supprime dans une liste les elements ne correspondants pas aux criteres
+        //currentTags = currentTags.filter((ct) => ct != $tag);
       });
 
       // 6 - Ajouter le tag a son conteneur (div)
       $tagsCtr.appendChild($tag);
       // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
-      console.log(
-        "Current tags = ",
-        currentTags.map(($tag) => $tag.innerText)
-      );
       updateSearchResult(mainTextInput, true);
     })
   );
