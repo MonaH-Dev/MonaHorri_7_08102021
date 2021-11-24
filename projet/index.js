@@ -57,14 +57,9 @@ $allChevrons.forEach((ch) =>
 
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
-function updateSearchResult(inputTxt = "", tagMode = false) {
+function updateSearchResult(inputTxt = "") {
   console.log("Refresh UI");
-  if (
-    tagMode || // par défaut -> si tagMode == true
-    currentTags.length > 0 ||
-    inputTxt.length >= 3 ||
-    inputTxt == ""
-  ) {
+  if (currentTags.length > 0 || inputTxt.length >= 3 || inputTxt == "") {
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
     document.getElementById("msgaide").style.display = "block";
@@ -78,6 +73,8 @@ function updateSearchResult(inputTxt = "", tagMode = false) {
         recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
         recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
       ) {
+        console.log("Match");
+        // Si search bar est vide --> Effet selon etat tags
         if (inputTxt == "") {
           // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
           console.log("tags count = ", currentTagsCount());
@@ -88,6 +85,10 @@ function updateSearchResult(inputTxt = "", tagMode = false) {
           else {
             matching = false;
           }
+        }
+        // Sinon on affiche la recette
+        else {
+          matching = true;
         }
       }
       // 2 - Verification match avec tags -----------------------------------
