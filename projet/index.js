@@ -4,7 +4,7 @@ const $recipeCtr = document.querySelector(".TheRecipes"); //Ctr des recettes
 let currentTags = []; //Tags actifs
 let currentIngTags = []; //Tags actifs Ing
 let currentUstTags = []; //Tags actifs Use
-let currentAplTags = []; //Tags actifs Apl
+let currentAplTag = ""; //Tag actif Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
 const $seachField = document.querySelector(".searchbox input"); //Barre de recherche
 let filteredRecipes = []; //recettes filtrées
@@ -19,7 +19,7 @@ $seachField.addEventListener("input", function (e) {
   //console.log("New input");
   mainTextInput = e.target.value;
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
-  updateSearchResult(mainTextInput);
+  filterWithSearchText(mainTextInput);
   // 2 - Mettre a jour les Asf selon la liste de recettes affichée
   blockIds.forEach((id) => {
     updateAdvancedSearchField(id);
@@ -57,7 +57,7 @@ $allChevrons.forEach((ch) =>
 
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
-function updateSearchResult(inputTxt = "") {
+function filterWithSearchText(inputTxt = "") {
   console.log("Refresh UI");
   if (currentTags.length > 0 || inputTxt.length >= 3) {
     $recipeCtr.innerHTML = "";
@@ -71,27 +71,15 @@ function updateSearchResult(inputTxt = "") {
         // Si test = "Mot" & "" --> Match = true
         recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
         recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
-        recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
+        recipeIngredientsMatchWithText(recipes[i].ingredients, inputTxt)
       ) {
         matching = true;
-        // if (inputTxt.length == 0) {
-        //   // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
-        //   console.log("tags count = ", currentTagsCount());
-        //   if (currentTagsCount() == 0) {
-        //     matching = true;
-        //   }
-        //   // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
-        //   else {
-        //     matching = false;
-        //   }
-        // }
       }
       // 2 - Verification match avec tags -----------------------------------
-      if (recipeMatchingWithTags(recipes[i])) {
-        //console.log(`Tags matchings with`, recipes[i]);
-        matching = true;
-      }
-
+      // if (recipeMatchingWithTags(recipes[i])) {
+      //   //console.log(`Tags matchings with`, recipes[i]);
+      //   matching = true;
+      // }
       // 3 - Si match avec searchBar ou tags --> Afficher la recette
       if (matching) {
         addElt(recipes[i]);
@@ -101,9 +89,18 @@ function updateSearchResult(inputTxt = "") {
     console.log("Filtered Recipes ", filteredRecipes);
   }
 }
+function filterWithTags(filteredRecipes) {
+  for (let i = 0; i < filteredRecipes.length; i++) {
+    if (!recipeMatchingWithTags(filteredRecipes[i])) {
+      filteredRecipes.splice(i, 1);
+      i--;
+    }
+  }
+  return filteredRecipes;
+}
 // Premier lancement de la fonction :
 // c'est la fonction par défaut,
-updateSearchResult();
+filterWithSearchText();
 console.log("Start flag");
 //#endregion
 
@@ -111,8 +108,7 @@ console.log("Start flag");
 // Retourne le nombre de tags affichées
 function currentTagsCount() {
   let count = 0;
-  count +=
-    currentIngTags.length + currentAplTags.length + currentUstTags.length;
+  count += currentIngTags.length + currentAplTag.length + currentUstTags.length;
   return count;
 }
 
@@ -128,7 +124,7 @@ function recipeTextMatchWithSearchText(recipeText, searchText) {
   return match;
 }
 
-function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+function recipeIngredientsMatchWithText(recipeIngredients, searchText) {
   let match = false;
   recipeIngredients.forEach((ing) => {
     if (ing.ingredient.toLowerCase().match(searchText)) {
@@ -138,8 +134,17 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   });
   return match;
 }
+function recipeUstensilsMatchWithText(recipeUstensils, text) {
+  let match = false;
+  recipeUstensils.forEach((ust) => {
+    if (ust.toLowerCase().match(text)) {
+      match = true;
+    }
+  });
+  return match;
+}
 // Ou
-// function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
+// function recipeIngredientsMatchWithText(recipeIngredients, searchText) {
 //   recipeIngredients.forEach((ing) => {
 //     if (recipeTextMatchWithSearchText(ing.ingredient, searchText)) {
 //       return true;
@@ -150,29 +155,20 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
 
 // Retourne vrai si la recette match avec un des tags courant
 function recipeMatchingWithTags(recipe) {
-  let match = false;
-  // Verif pour les 3 types de tags
-
-  // 1 - Verif des ingredients
-  // 1a - Parcours des ingredients de la recette courante
-  recipe.ingredients.forEach((ing) => {
-    // 1b - Si la liste des tags d'ings courants (currentIngTags) contient un des ingredients de la recette courante (recipe) --> match
-    if (currentIngTags.includes(ing.ingredient)) match = true;
-  });
-
-  // 2 - Verif des Appareils
-  // 2b - Si la liste des tags d'apl courants contient un des appareil de la recette courante (recipe) --> match
-  if (currentAplTags.includes(recipe.appliance)) match = true;
-
-  // 3 - Verif des Ustencils
-  // 3b - Si la liste des tags d'ust courants contient un des ustencils de la recette courante (recipe) --> match
-  recipe.ustensils.forEach((ust) => {
-    if (currentUstTags.includes(ust)) match = true;
-  });
-
-  if (match) console.log(`Tags matching with ${recipe.name}`);
-
-  return match;
+  if (currentIngTags.length > 0) {
+    currentIngTags.forEach((ingtag) => {
+      if (!recipeIngredientsMatchWithText(recipe.ingredients, ingtag))
+        return false;
+    });
+  }
+  if (currentUstTags.length > 0) {
+    currentUstTags.forEach((usttag) => {
+      if (!recipeUstensilsMatchWithText(recipe.ustensils, usttag)) return false;
+    });
+  }
+  if (currentAplTag && !currentAplTag.toLowerCase().match(recipe.appliance))
+    return false;
+  return true;
 }
 //#endregion
 
@@ -293,8 +289,8 @@ function populateAsf(blockId, asfData) {
           console.log("Ing tags = ", currentIngTags);
           break;
         case "appareilBlock":
-          currentAplTags.push(tagLink.innerText);
-          console.log("Aps tags = ", currentAplTags);
+          currentAplTag.push(tagLink.innerText);
+          console.log("Aps tags = ", currentAplTag);
           break;
         case "ustensilesBlock":
           currentUstTags.push(tagLink.innerText);
@@ -336,8 +332,8 @@ function populateAsf(blockId, asfData) {
             console.log("Ing tags = ", currentIngTags);
             break;
           case "appareilBlock":
-            currentAplTags = currentAplTags.filter((apl) => apl != tagName);
-            console.log("Apl tags = ", currentAplTags);
+            currentAplTag = currentAplTag.filter((apl) => apl != tagName);
+            console.log("Apl tags = ", currentAplTag);
             break;
           case "ustensilesBlock":
             currentUstTags = currentUstTags.filter((ust) => ust != tagName);
@@ -346,7 +342,7 @@ function populateAsf(blockId, asfData) {
         }
 
         $tag.remove();
-        updateSearchResult(mainTextInput, true);
+        filterWithSearchText(mainTextInput, true);
         // filter : supprime dans une liste les elements ne correspondants pas aux criteres
         //currentTags = currentTags.filter((ct) => ct != $tag);
       });
@@ -355,7 +351,7 @@ function populateAsf(blockId, asfData) {
       $tagsCtr.appendChild($tag);
       // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
-      updateSearchResult(mainTextInput, true);
+      filterWithSearchText(mainTextInput, true);
     })
   );
 
@@ -419,7 +415,7 @@ $rechercherDsList.addEventListener("mouseout", ph);
 //   $asfLinks.forEach((link) =>
 //     link.addEventListener("click", function (e) {
 //       //console.log("Click on asf element", link);
-//       updateSearchResult(mainTextInput, true);
+//       filterWithSearchText(mainTextInput, true);
 
 //       // 1 - Recuperer le text du lien
 //       let tagName = link.textContent;
