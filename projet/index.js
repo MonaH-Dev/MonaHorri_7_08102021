@@ -7,7 +7,7 @@ let currentUstTags = []; //Tags actifs Use
 let currentAplTags = []; //Tags actifs Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
 const $seachField = document.querySelector(".searchbox input"); //Barre de recherche
-let filteredRecipes; //recettes filtrées
+let filteredRecipes = []; //recettes filtrées
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"]; //tableau avec l'ID de chaque liste
 const $allChevrons = document.querySelectorAll(".chevron"); //tous les chevrons
 const $allBlocks = document.querySelectorAll(".Block"); //tous les blocks
@@ -57,14 +57,9 @@ $allChevrons.forEach((ch) =>
 
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
-function updateSearchResult(inputTxt = "", tagMode = false) {
+function updateSearchResult(inputTxt = "") {
   console.log("Refresh UI");
-  if (
-    tagMode || // par défaut -> si tagMode == true
-    currentTags.length > 0 ||
-    inputTxt.length >= 3 ||
-    inputTxt == ""
-  ) {
+  if (currentTags.length > 0 || inputTxt.length >= 3) {
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
     document.getElementById("msgaide").style.display = "block";
@@ -78,17 +73,18 @@ function updateSearchResult(inputTxt = "", tagMode = false) {
         recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
         recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
       ) {
-        if (inputTxt == "") {
-          // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
-          console.log("tags count = ", currentTagsCount());
-          if (currentTagsCount() == 0) {
-            matching = true;
-          }
-          // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
-          else {
-            matching = false;
-          }
-        }
+        matching = true;
+        // if (inputTxt.length == 0) {
+        //   // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
+        //   console.log("tags count = ", currentTagsCount());
+        //   if (currentTagsCount() == 0) {
+        //     matching = true;
+        //   }
+        //   // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
+        //   else {
+        //     matching = false;
+        //   }
+        // }
       }
       // 2 - Verification match avec tags -----------------------------------
       if (recipeMatchingWithTags(recipes[i])) {
