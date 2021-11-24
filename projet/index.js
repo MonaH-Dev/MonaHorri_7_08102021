@@ -67,32 +67,31 @@ function updateSearchResult(inputTxt = "") {
       let matching = false;
       // console.log(recipes[i]);
       // 1 - Verification match avec searchBar -----------------------------
-      if (
-        // Si test = "Mot" & "" --> Match = true
-        recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
-        recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
-        recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
-      ) {
-        console.log("Match");
-        // Si search bar est vide --> Effet selon etat tags
-        if (inputTxt == "") {
-          // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true)
-          console.log("tags count = ", currentTagsCount());
-          if (currentTagsCount() == 0) {
-            matching = true;
-          }
-          // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
-          else {
-            matching = false;
-          }
-        }
-        // Sinon on affiche la recette
-        else {
-          matching = true;
-        }
-      }
+      // if (
+      //   // Si test = "Mot" & "" --> Match = true
+      //   recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
+      //   recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
+      //   recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
+      // ) {
+      //   // Si search bar est vide --> Effet selon etat tags
+      //   if (inputTxt == "") {
+      //     // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true) ( Affiche toute les recettes )
+      //     //console.log("tags count = ", currentTagsCount());
+      //     if (currentTagsCount() == 0) {
+      //       matching = true;
+      //     }
+      //     // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
+      //     else {
+      //       matching = false;
+      //     }
+      //   }
+      //   // Sinon on affiche la recette
+      //   else {
+      //     matching = true;
+      //   }
+      // }
       // 2 - Verification match avec tags -----------------------------------
-      if (recipeMatchingWithTags(recipes[i])) {
+      if (recipeMatchingWithTagsAndSearch(recipes[i], inputTxt)) {
         //console.log(`Tags matchings with`, recipes[i]);
         matching = true;
       }
@@ -153,29 +152,58 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
 //   return false;
 // }
 
-// Retourne vrai si la recette match avec un des tags courant
-function recipeMatchingWithTags(recipe) {
+// Retourne vrai si la recette match avec tous les tags courant + la barre de recherche
+function recipeMatchingWithTagsAndSearch(recipe, inputText = "") {
   let match = false;
+  let score = 0;
+  // 1 - Calcul du score attendu
+  let targetScore =
+    currentTagsCount() +
+    //(inputTxt.length >= 3 ? 1 : 0) // Version opération ternaire
+    (inputText.length >= 3 && 1); // Si input search bar est >= a 3, on ajout 1 au calcul
+
   // Verif pour les 3 types de tags
 
   // 1 - Verif des ingredients
   // 1a - Parcours des ingredients de la recette courante
   recipe.ingredients.forEach((ing) => {
     // 1b - Si la liste des tags d'ings courants (currentIngTags) contient un des ingredients de la recette courante (recipe) --> match
-    if (currentIngTags.includes(ing.ingredient)) match = true;
+    if (currentIngTags.includes(ing.ingredient)) {
+      //console.log(`Match with ingredient tag --> ${ing.ingredient}`);
+      score++;
+    }
   });
 
   // 2 - Verif des Appareils
   // 2b - Si la liste des tags d'apl courants contient un des appareil de la recette courante (recipe) --> match
-  if (currentAplTags.includes(recipe.appliance)) match = true;
+  if (currentAplTags.includes(recipe.appliance)) {
+    //console.log(`Match with appareil tag --> ${recipe.appliance}`);
+    score++;
+  }
 
   // 3 - Verif des Ustencils
   // 3b - Si la liste des tags d'ust courants contient un des ustencils de la recette courante (recipe) --> match
   recipe.ustensils.forEach((ust) => {
-    if (currentUstTags.includes(ust)) match = true;
+    if (currentUstTags.includes(ust)) {
+      //console.log(`Match with ustencil tag --> ${ust}`);
+      score++;
+    }
   });
 
-  if (match) console.log(`Tags matching with ${recipe.name}`);
+  // 4 - Verif avec le text search bar
+  if (
+    inputText.length >= 3 &&
+    recipeTextMatchWithSearchText(recipe.description + recipe.name, inputText)
+  ) {
+    if (inputText != "" && score == targetScore - 1) {
+      //console.log(`Match search bar input --> ${recipe.name}`);
+      score++;
+    }
+  }
+
+  if (targetScore == score) match = true;
+
+  if (match) console.log(`Matching with ${recipe.name}`);
 
   return match;
 }
