@@ -19,7 +19,7 @@
   text-indent: 10px;
   // @include bradius;
   border: none;
-  margin-top: 25px;
+  margin: 25px 5px 20px;
   width: 80%;
   // margin: 20px 20px 0 0;
 }
@@ -70,12 +70,18 @@ input[name="ustensilesBlock"],
 
 .asfList {
   // flex-direction: column;
+  box-sizing: border-box;
+  max-height: 25em;
+  overflow: hidden;
+  padding: 0px 15px 8px;
   @include bradius;
   a {
     text-decoration: none;
     color: white;
+    font-size: small;
   }
-  columns: 4 10em;
+  columns: 3 6em;
+  column-gap: 3em;
 }
 
 /*#endregion*/

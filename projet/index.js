@@ -111,7 +111,7 @@ updateSearchResult();
 console.log("Start flag");
 //#endregion
 
-//#region FONCTION -
+//#region FONCTION - Retourne le nombre de tags affichées
 // Retourne le nombre de tags affichées
 function currentTagsCount() {
   let count = 0;

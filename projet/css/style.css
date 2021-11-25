@@ -126,7 +126,7 @@ input[name=idea] {
   font-weight: bold;
   text-indent: 10px;
   border: none;
-  margin-top: 25px;
+  margin: 25px 5px 20px;
   width: 80%;
 }
 
@@ -161,12 +161,18 @@ input[name=ustensilesBlock],
 /* TRANSITIONS */
 /*#region*/
 .asfList {
+  box-sizing: border-box;
+  max-height: 25em;
+  overflow: hidden;
+  padding: 0px 15px 8px;
   border-radius: 5px 5px 5px 5px;
-  columns: 4 10em;
+  columns: 3 6em;
+  column-gap: 3em;
 }
 .asfList a {
   text-decoration: none;
   color: white;
+  font-size: small;
 }
 
 /*#endregion*/
