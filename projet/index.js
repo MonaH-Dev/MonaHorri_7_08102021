@@ -65,31 +65,6 @@ function updateSearchResult(inputTxt = "") {
     document.getElementById("msgaide").style.display = "block";
     for (let i = 0; i < recipes.length; i++) {
       let matching = false;
-      // console.log(recipes[i]);
-      // 1 - Verification match avec searchBar -----------------------------
-      // if (
-      //   // Si test = "Mot" & "" --> Match = true
-      //   recipeTextMatchWithSearchText(recipes[i].name, inputTxt) ||
-      //   recipeTextMatchWithSearchText(recipes[i].description, inputTxt) ||
-      //   recipeIngredientsMatchWithSearchText(recipes[i].ingredients, inputTxt)
-      // ) {
-      //   // Si search bar est vide --> Effet selon etat tags
-      //   if (inputTxt == "") {
-      //     // 1a - Si aucun tags + aucun text ("") --> Affiche la recette en cours (match = true) ( Affiche toute les recettes )
-      //     //console.log("tags count = ", currentTagsCount());
-      //     if (currentTagsCount() == 0) {
-      //       matching = true;
-      //     }
-      //     // 1b - Si tags existants + aucun text ("") --> N'affiche que les recette via tags
-      //     else {
-      //       matching = false;
-      //     }
-      //   }
-      //   // Sinon on affiche la recette
-      //   else {
-      //     matching = true;
-      //   }
-      // }
       // 2 - Verification match avec tags -----------------------------------
       if (recipeMatchingWithTagsAndSearch(recipes[i], inputTxt)) {
         //console.log(`Tags matchings with`, recipes[i]);
@@ -98,6 +73,7 @@ function updateSearchResult(inputTxt = "") {
 
       // 3 - Si match avec searchBar ou tags --> Afficher la recette
       if (matching) {
+        console.log("Ok");
         addElt(recipes[i]);
         filteredRecipes.push(recipes[i]);
       }
@@ -377,9 +353,9 @@ function populateAsf(blockId, asfData) {
             console.log("Ust tags = ", currentUstTags);
             break;
         }
-
         $tag.remove();
         updateSearchResult(mainTextInput, true);
+        updateAdvancedSearchField(blockId);
         // filter : supprime dans une liste les elements ne correspondants pas aux criteres
         //currentTags = currentTags.filter((ct) => ct != $tag);
       });
@@ -388,7 +364,8 @@ function populateAsf(blockId, asfData) {
       $tagsCtr.appendChild($tag);
       // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
-      updateSearchResult(mainTextInput, true);
+      updateSearchResult(mainTextInput);
+      updateAdvancedSearchField(blockId);
     })
   );
 
