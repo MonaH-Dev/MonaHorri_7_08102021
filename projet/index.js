@@ -255,6 +255,12 @@ function updateAdvancedSearchField(blockId) {
   // 3 - Peupler le champs de recherche avancée correspondant
   populateAsf(blockId, data);
 }
+
+function displayAllTags(tags) {
+  tags.forEach((tag) => {
+    tag.style.display = null;
+  });
+}
 //#endregion
 
 //#region !!!!! A REORDONNER !!!!!! VISUALISATION DES LISTES / FILTRES
@@ -377,16 +383,30 @@ function filterByIng(filteredIng, currentIngTags) {}
 //#endregion
 
 //#region CHANGE THE PLACEHOLDER ( !!!! code à revoir pr optimiser !!! )
-let $rechercherDsList = document.querySelector(".Block");
-placeholderText = document.querySelector('[placeholder="Ingrédients"]');
-function ph() {
-  placeholderText.setAttribute("placeholder", "Ingrédients");
+
+function changeTagPlaceholder([blockId, placeholder]) {
+  let $rechercherDsList = document.querySelector(".Block");
+  placeholderText = document.querySelector(`[name="${blockId}"]`);
+  console.log(placeholderText);
+  function ph() {
+    placeholderText.setAttribute("placeholder", placeholder);
+  }
+  function phr() {
+    placeholderText.setAttribute("placeholder", "Recherche un" + placeholder);
+  }
+  $rechercherDsList.addEventListener("mouseover", phr);
+  $rechercherDsList.addEventListener("mouseout", ph);
 }
-function phr() {
-  placeholderText.setAttribute("placeholder", "Recherche un ingrédient");
-}
-$rechercherDsList.addEventListener("mouseover", phr);
-$rechercherDsList.addEventListener("mouseout", ph);
+
+let tagSections = [
+  ["ingredientsBlock", "ingredient"],
+  ["appareilBlock", "appareil"],
+  ["ustensilesBlock", "ustensile"],
+];
+
+tagSections.forEach((tagsec) => {
+  changeTagPlaceholder(tagsec);
+});
 //#endregion
 
 //#region XXX
