@@ -58,11 +58,11 @@ $allChevrons.forEach((ch) =>
 //#region FONCTION - Mets a jour les recettes selon l'input
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "") {
-  console.log("Refresh UI");
+  // console.log("Refresh UI");
   if (currentTags.length > 0 || inputTxt.length >= 3 || inputTxt == "") {
     $recipeCtr.innerHTML = "";
     filteredRecipes = [];
-    document.getElementById("msgaide").style.display = "block";
+    document.getElementById("msgaide").style.display = "none";
     for (let i = 0; i < recipes.length; i++) {
       let matching = false;
       // 2 - Verification match avec tags -----------------------------------
@@ -73,18 +73,22 @@ function updateSearchResult(inputTxt = "") {
 
       // 3 - Si match avec searchBar ou tags --> Afficher la recette
       if (matching) {
-        console.log("Ok");
+        // console.log("Ok");
         addElt(recipes[i]);
         filteredRecipes.push(recipes[i]);
       }
     }
-    console.log("Filtered Recipes ", filteredRecipes);
+
+    // console.log("Filtered Recipes ", filteredRecipes);
+  }
+  if (filteredRecipes.length == 0) {
+    document.getElementById("msgaide").style.display = "block";
   }
 }
 // Premier lancement de la fonction :
 // c'est la fonction par défaut,
 updateSearchResult();
-console.log("Start flag");
+// console.log("Start flag");
 //#endregion
 
 //#region FONCTION - Retourne le nombre de tags affichées
@@ -171,16 +175,13 @@ function recipeMatchingWithTagsAndSearch(recipe, inputText = "") {
     inputText.length >= 3 &&
     recipeTextMatchWithSearchText(recipe.description + recipe.name, inputText)
   ) {
-    if (inputText != "" && score == targetScore - 1) {
+    if (score == targetScore - 1) {
       //console.log(`Match search bar input --> ${recipe.name}`);
       score++;
     }
   }
-
   if (targetScore == score) match = true;
-
-  if (match) console.log(`Matching with ${recipe.name}`);
-
+  // if (match) console.log(`Matching with ${recipe.name}`);
   return match;
 }
 //#endregion
@@ -305,15 +306,15 @@ function populateAsf(blockId, asfData) {
       switch (blockId) {
         case "ingredientsBlock":
           currentIngTags.push(tagLink.innerText);
-          console.log("Ing tags = ", currentIngTags);
+          // console.log("Ing tags = ", currentIngTags);
           break;
         case "appareilBlock":
           currentAplTags.push(tagLink.innerText);
-          console.log("Aps tags = ", currentAplTags);
+          // console.log("Aps tags = ", currentAplTags);
           break;
         case "ustensilesBlock":
           currentUstTags.push(tagLink.innerText);
-          console.log("Ust tags = ", currentUstTags);
+          // console.log("Ust tags = ", currentUstTags);
           break;
       }
       //console.log("Aps tags = ");
@@ -348,15 +349,15 @@ function populateAsf(blockId, asfData) {
         switch (blockId) {
           case "ingredientsBlock":
             currentIngTags = currentIngTags.filter((ing) => ing != tagName);
-            console.log("Ing tags = ", currentIngTags);
+            // console.log("Ing tags = ", currentIngTags);
             break;
           case "appareilBlock":
             currentAplTags = currentAplTags.filter((apl) => apl != tagName);
-            console.log("Apl tags = ", currentAplTags);
+            // console.log("Apl tags = ", currentAplTags);
             break;
           case "ustensilesBlock":
             currentUstTags = currentUstTags.filter((ust) => ust != tagName);
-            console.log("Ust tags = ", currentUstTags);
+            // console.log("Ust tags = ", currentUstTags);
             break;
         }
         $tag.remove();
@@ -392,7 +393,7 @@ function changeTagPlaceholder([blockId, placeholder]) {
     placeholderText.setAttribute("placeholder", placeholder);
   }
   function phr() {
-    placeholderText.setAttribute("placeholder", "Recherche un" + placeholder);
+    placeholderText.setAttribute("placeholder", "Recherche un " + placeholder);
   }
   $rechercherDsList.addEventListener("mouseover", phr);
   $rechercherDsList.addEventListener("mouseout", ph);
