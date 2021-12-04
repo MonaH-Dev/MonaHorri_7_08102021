@@ -6,7 +6,7 @@ let currentIngTags = []; //Tags actifs Ing
 let currentUstTags = []; //Tags actifs Use
 let currentAplTags = []; //Tags actifs Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
-const $seachField = document.querySelector(".searchbox input"); //Barre de recherche
+const $searchField = document.querySelector(".searchbox input"); //Barre de recherche
 let filteredRecipes; //recettes filtrées
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"]; //tableau avec l'ID de chaque liste
 const $allChevrons = document.querySelectorAll(".chevron"); //tous les chevrons
@@ -15,7 +15,7 @@ const $allBlocks = document.querySelectorAll(".Block"); //tous les blocks
 
 //#region EVENT - BARRE DE RECHERCHE
 // On écoute la valeur entrée dans la barre de recherche :
-$seachField.addEventListener("input", function (e) {
+$searchField.addEventListener("input", function (e) {
   //console.log("New input");
   mainTextInput = e.target.value;
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
@@ -37,25 +37,10 @@ $allChevrons.forEach((ch) =>
     updateAdvancedSearchField(parentBlockId);
   })
 );
-// $allBlocks.forEach((bl) =>
-//   bl.addEventListener("mouseover", function (e) {
-//     let parentBlockId = e.target.closest(".Block").id;
-//     updateAdvancedSearchField(parentBlockId);
-//   })
-// );
-// Si on essaie de factoriser ces 2 events :
-// let events = [$allChevrons, $allBlocks];
-
-// events.forEach((ev) =>
-//   ev.addEventListener("click", function (e) {
-//     let parentBlockId = e.target.closest(".Block").id;
-//     updateAdvancedSearchField(parentBlockId);
-//   })
-// );
 
 //#endregion
 
-//#region FONCTION - Mets a jour les recettes selon l'input
+//#region FONCTION - Mets a jour les recettes selon l'input et les tags
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "") {
   // console.log("Refresh UI");
@@ -70,16 +55,13 @@ function updateSearchResult(inputTxt = "") {
         //console.log(`Tags matchings with`, recipes[i]);
         matching = true;
       }
-
       // 3 - Si match avec searchBar ou tags --> Afficher la recette
       if (matching) {
         // console.log("Ok");
         addElt(recipes[i]);
         filteredRecipes.push(recipes[i]);
       }
-    }
-
-    // console.log("Filtered Recipes ", filteredRecipes);
+    } // console.log("Filtered Recipes ", filteredRecipes);
   }
   if (filteredRecipes.length == 0) {
     document.getElementById("msgaide").style.display = "block";
@@ -91,27 +73,15 @@ updateSearchResult();
 // console.log("Start flag");
 //#endregion
 
-//#region FONCTION - Retourne le nombre de tags affichées
-// Retourne le nombre de tags affichées
-function currentTagsCount() {
-  let count = 0;
-  count +=
-    currentIngTags.length + currentAplTags.length + currentUstTags.length;
-  return count;
-}
-
-//#endregion
-
-//#region FONCTIONS - Chercher correspondance txt tapé VS autres
-// Fonctions de vérifs (nom et description), avec 2 paramètres,
-// le 2nd est mis en minuscule, puis comparé au 1er
+//#region FONCTIONS - MATCHING
+// Fonctions de vérifs (nom et description) ---------------------
+// avec 2 paramètres, le 2nd est mis en minuscule, puis comparé au 1er
 // Retourne true si l'input searchTxt correspond a la recette courante
 function recipeTextMatchWithSearchText(recipeText, searchText) {
   let match = recipeText.toLowerCase().match(searchText);
   //if (match) console.log(`${recipeText} matching with "${searchText}"`);
   return match;
 }
-
 function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   let match = false;
   recipeIngredients.forEach((ing) => {
@@ -122,16 +92,16 @@ function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
   });
   return match;
 }
-// Ou
-// function recipeIngredientsMatchWithSearchText(recipeIngredients, searchText) {
-//   recipeIngredients.forEach((ing) => {
-//     if (recipeTextMatchWithSearchText(ing.ingredient, searchText)) {
-//       return true;
-//     }
-//   });
-//   return false;
-// }
 
+// Retourne le nombre de tags affichées --------------------
+function currentTagsCount() {
+  let count = 0;
+  count +=
+    currentIngTags.length + currentAplTags.length + currentUstTags.length;
+  return count;
+}
+
+// Fonction globale --------------------------------------------------
 // Retourne vrai si la recette match avec tous les tags courant + la barre de recherche
 function recipeMatchingWithTagsAndSearch(recipe, inputText = "") {
   let match = false;
@@ -143,7 +113,6 @@ function recipeMatchingWithTagsAndSearch(recipe, inputText = "") {
     (inputText.length >= 3 && 1); // Si input search bar est >= a 3, on ajout 1 au calcul
 
   // Verif pour les 3 types de tags
-
   // 1 - Verif des ingredients
   // 1a - Parcours des ingredients de la recette courante
   recipe.ingredients.forEach((ing) => {
@@ -153,14 +122,12 @@ function recipeMatchingWithTagsAndSearch(recipe, inputText = "") {
       score++;
     }
   });
-
   // 2 - Verif des Appareils
   // 2b - Si la liste des tags d'apl courants contient un des appareil de la recette courante (recipe) --> match
   if (currentAplTags.includes(recipe.appliance)) {
     //console.log(`Match with appareil tag --> ${recipe.appliance}`);
     score++;
   }
-
   // 3 - Verif des Ustencils
   // 3b - Si la liste des tags d'ust courants contient un des ustencils de la recette courante (recipe) --> match
   recipe.ustensils.forEach((ust) => {
@@ -256,25 +223,10 @@ function updateAdvancedSearchField(blockId) {
   // 3 - Peupler le champs de recherche avancée correspondant
   populateAsf(blockId, data);
 }
-
-function displayAllTags(tags) {
-  tags.forEach((tag) => {
-    tag.style.display = null;
-  });
-}
 //#endregion
 
-//#region !!!!! A REORDONNER !!!!!! VISUALISATION DES LISTES / FILTRES
+//#region VISUALISATION DES LISTES / FILTRES
 
-function filteredbyIngTags() {
-  const filteredRecipes_ = [...filteredRecipes];
-  filteredRecipes.forEach((rec) => {
-    currentIngTags.forEach((tag) => {
-      if (rec.ingredient.toLowerCase().match(tag)) {
-      }
-    });
-  });
-}
 // Peupler un block ASF (selon blockID)
 // blockID : string servant à identifier le block à màj
 // asfData : liste de données selon le block à màj = set(rawData)
@@ -375,17 +327,12 @@ function populateAsf(blockId, asfData) {
       updateAdvancedSearchField(blockId);
     })
   );
-
-  // Ajouter un event sur chaque bouton close de chaque tag
 }
-
-function filterByIng(filteredIng, currentIngTags) {}
-
 //#endregion
 
 //#region CHANGE THE PLACEHOLDER ( !!!! code à revoir pr optimiser !!! )
-
 function changeTagPlaceholder([blockId, placeholder]) {
+  // Soucis ici avec le QuerySelector :
   let $rechercherDsList = document.querySelector(".Block");
   placeholderText = document.querySelector(`[name="${blockId}"]`);
   console.log(placeholderText);
@@ -507,5 +454,22 @@ tagSections.forEach((tagsec) => {
 // console.log("DataList without ... --> ", [asfData]);
 //const dl2 = soit un tableau avec 1 seul elt (1tableau), contenant lui-même 30 elt
 //--------- fin de conversion -------------------//
+
+// function displayAllTags(tags) {
+//   tags.forEach((tag) => {
+//     tag.style.display = null;
+//   });
+// }
+
+// function filteredbyIngTags() {
+//   const filteredRecipes_ = [...filteredRecipes];
+//   filteredRecipes.forEach((rec) => {
+//     currentIngTags.forEach((tag) => {
+//       if (rec.ingredient.toLowerCase().match(tag)) {
+//       }
+//     });
+//   });
+// }
+// function filterByIng(filteredIng, currentIngTags) {}
 
 //#endregion
