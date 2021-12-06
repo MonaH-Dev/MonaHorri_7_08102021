@@ -173,6 +173,7 @@ input[name=ustensilesBlock],
   text-decoration: none;
   color: white;
   font-size: small;
+  display: block;
 }
 
 /*#endregion*/

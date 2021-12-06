@@ -40,7 +40,7 @@ $allChevrons.forEach((ch) =>
 
 //#endregion
 
-//#region FONCTION - Mets a jour les recettes selon l'input et les tags
+//#region FONCTION - Met a jour les recettes selon l'input et les tags
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "") {
   // console.log("Refresh UI");
@@ -193,7 +193,7 @@ function addElt(recipe) {
 }
 //#endregion
 
-//#region FONCTION - Mets a jour les ASF selon la liste de recettes
+//#region FONCTION - Met a jour les ASF selon la liste de recettes
 // Mets a jour les asf selon la liste de recettes ("filteredRecipes")
 function updateAdvancedSearchField(blockId) {
   // 1 - Récuperer une liste de données en fonction du type d'input ( ingredients, appareils, ustensils )
@@ -243,7 +243,7 @@ function populateAsf(blockId, asfData) {
   let htmlToInject = "";
   asfData.forEach((data) => {
     // console.log("DL = ", data);
-    htmlToInject += `<a href="#">${data}</a><br>`;
+    htmlToInject += `<a href="#">${data}</a>`;
   });
   $asfRoot.innerHTML += htmlToInject;
 
@@ -330,12 +330,11 @@ function populateAsf(blockId, asfData) {
 }
 //#endregion
 
-//#region CHANGE THE PLACEHOLDER ( !!!! code à revoir pr optimiser !!! )
+//#region CHANGE THE PLACEHOLDER
 function changeTagPlaceholder([blockId, placeholder]) {
   // Soucis ici avec le QuerySelector :
-  let $rechercherDsList = document.querySelector(".Block");
-  placeholderText = document.querySelector(`[name="${blockId}"]`);
-  console.log(placeholderText);
+  let $rechercherDsList = document.querySelector(`#${blockId}`);
+  const placeholderText = document.querySelector(`[name="${blockId}"]`);
   function ph() {
     placeholderText.setAttribute("placeholder", placeholder);
   }
@@ -354,10 +353,28 @@ let tagSections = [
 
 tagSections.forEach((tagsec) => {
   changeTagPlaceholder(tagsec);
+  changeTagDisplayWithAsfSearch(tagsec[0]);
 });
+
+function changeTagDisplayWithAsfSearch(blockId) {
+  let $block = document.querySelector(`#${blockId}`);
+  let $input = $block.querySelector("input");
+  $input.addEventListener("input", function (e) {
+    let $asflistItems = $block.querySelectorAll(".asfList a");
+    const textValue = e.target.value;
+    for (let i = 0, l = $asflistItems.length; i < l; i++) {
+      if ($asflistItems[i].innerText.toLowerCase().match(textValue)) {
+        $asflistItems[i].style.display = "block";
+      } else {
+        $asflistItems[i].style.display = "none";
+      }
+    }
+  });
+}
+
 //#endregion
 
-//#region XXX
+//#region vdfvdv
 
 //#endregion
 
