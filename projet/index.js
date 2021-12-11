@@ -4,9 +4,9 @@ const $recipeCtr = document.querySelector(".TheRecipes"); //Ctr des recettes
 let currentTags = []; //Tags actifs
 let currentIngTags = []; //Tags actifs Ing
 let currentUstTags = []; //Tags actifs Use
-let currentAplTags = []; //Tags actifs Apl
+let currentAplTag = ""; //Tag actif Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
-let tagSectionToDisplay = "";
+let tagSectionToDisplay = ""; //Liste de tags affichée
 const $searchField = document.querySelector(".searchbox input"); //Barre de recherche
 let filteredRecipes; //recettes filtrées
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"]; //tableau avec l'ID de chaque liste
@@ -21,7 +21,7 @@ $searchField.addEventListener("input", function (e) {
   mainTextInput = e.target.value;
 
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
-  updateSearchResult(mainTextInput);
+  filterWithSearchText(mainTextInput);
   // 2 - Mettre a jour les Asf selon la liste de recettes affichée
   updateAllAdvancedSearchFields();
   //console.log("Event flag");
@@ -87,6 +87,15 @@ function updateSearchResult(inputTxt = "") {
   if (filteredRecipes.length == 0) {
     document.getElementById("msgaide").style.display = "block";
   }
+}
+function filterWithTags(filteredRecipes) {
+  for (let i = 0; i < filteredRecipes.length; i++) {
+    if (!recipeMatchingWithTags(filteredRecipes[i])) {
+      filteredRecipes.splice(i, 1);
+      i--;
+    }
+  }
+  return filteredRecipes;
 }
 // Premier lancement de la fonction :
 // c'est la fonction par défaut,
