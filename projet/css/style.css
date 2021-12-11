@@ -130,7 +130,10 @@ input[name=idea] {
   width: 80%;
 }
 
-.ListFilter input[type=research]::placeholder {
+.ListFilter input[type=research]::placeholder,
+input[name=ingredientsBlock],
+input[name=appareilBlock],
+input[name=ustensilesBlock] {
   color: white;
   width: 100%;
 }
@@ -226,6 +229,18 @@ input[name=ustensilesBlock],
 
 .tag-txt {
   margin-right: 5px;
+}
+
+.color-appareilBlock {
+  background-color: #68D9A4;
+}
+
+.color-ingredientsBlock {
+  background-color: #3282F7;
+}
+
+.color-ustensilesBlock {
+  background-color: #ED6454;
 }
 
 header {

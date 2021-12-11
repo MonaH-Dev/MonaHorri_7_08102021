@@ -6,6 +6,7 @@ let currentIngTags = []; //Tags actifs Ing
 let currentUstTags = []; //Tags actifs Use
 let currentAplTags = []; //Tags actifs Apl
 let mainTextInput = ""; //Texte dans la barre de recherche
+let tagSectionToDisplay = "";
 const $searchField = document.querySelector(".searchbox input"); //Barre de recherche
 let filteredRecipes; //recettes filtrées
 const blockIds = ["ingredientsBlock", "appareilBlock", "ustensilesBlock"]; //tableau avec l'ID de chaque liste
@@ -18,12 +19,11 @@ const $allBlocks = document.querySelectorAll(".Block"); //tous les blocks
 $searchField.addEventListener("input", function (e) {
   //console.log("New input");
   mainTextInput = e.target.value;
+
   // 1 - Mettre a jour les recettes selon l'input (+ les tags)
   updateSearchResult(mainTextInput);
   // 2 - Mettre a jour les Asf selon la liste de recettes affichée
-  blockIds.forEach((id) => {
-    updateAdvancedSearchField(id);
-  });
+  updateAllAdvancedSearchFields();
   //console.log("Event flag");
 });
 //#endregion
@@ -33,8 +33,22 @@ $allChevrons.forEach((ch) =>
   ch.addEventListener("click", function (e) {
     // console.log("Chevron clicked");
     let parentBlockId = e.target.closest(".Block").id;
-    // console.log(parentBlockId);
-    updateAdvancedSearchField(parentBlockId);
+
+    if (tagSectionToDisplay === parentBlockId) {
+      tagSectionToDisplay = "";
+      document.querySelector(`#${parentBlockId} .asfList`).style.visibility =
+        "hidden";
+    } else {
+      if (tagSectionToDisplay) {
+        document.querySelector(
+          `#${tagSectionToDisplay} .asfList`
+        ).style.visibility = "hidden";
+      }
+      tagSectionToDisplay = parentBlockId;
+      document.querySelector(`#${parentBlockId} .asfList`).style.visibility =
+        "visible";
+    }
+    // updateAdvancedSearchField(parentBlockId);
   })
 );
 
@@ -43,6 +57,13 @@ $allChevrons.forEach((ch) =>
 //#region FONCTION - Met a jour les recettes selon l'input et les tags
 // Mets a jour les recettes selon l'input
 function updateSearchResult(inputTxt = "") {
+  // filteredRecipes = recipes.filter(recipe => {
+  //   if(recipeMatchingWithTagsAndSearch(recipe, inputTxt)) {
+  //    addElt(recipe);
+  //    return true;
+  //   }
+  // });
+
   // console.log("Refresh UI");
   if (currentTags.length > 0 || inputTxt.length >= 3 || inputTxt == "") {
     $recipeCtr.innerHTML = "";
@@ -163,7 +184,7 @@ function addElt(recipe) {
       <div class="recipe-prez__timing">
         <img
           class="recipe-prez__timing--icon"
-          src="../projet/img/time.svg"
+          src="./img/time.svg"
           alt="timer icon"
         />
         <p class="recipe-prez__timing--duration">${recipe.time} min</p>
@@ -194,6 +215,13 @@ function addElt(recipe) {
 //#endregion
 
 //#region FONCTION - Met a jour les ASF selon la liste de recettes
+
+function updateAllAdvancedSearchFields() {
+  blockIds.forEach((id) => {
+    updateAdvancedSearchField(id);
+  });
+}
+
 // Mets a jour les asf selon la liste de recettes ("filteredRecipes")
 function updateAdvancedSearchField(blockId) {
   // 1 - Récuperer une liste de données en fonction du type d'input ( ingredients, appareils, ustensils )
@@ -281,7 +309,8 @@ function populateAsf(blockId, asfData) {
 
       // 2 - Créer un nouveau tag
       let $tag = document.createElement("div");
-      $tag.className = "tag";
+      const color = "color-" + blockId;
+      $tag.className = "tag " + color;
       $tag.innerHTML = `
       <div class="tag-txt">${tagName}</div>
       `;
@@ -289,7 +318,7 @@ function populateAsf(blockId, asfData) {
       // 3 - Creer le button close du tag
       let $tagCloseBtn = document.createElement("img");
       $tagCloseBtn.className = "tag-img";
-      $tagCloseBtn.src = "../projet/img/cross.svg";
+      $tagCloseBtn.src = "./img/cross.svg";
       $tagCloseBtn.alt = "closetag";
 
       // 4 - Ajouter le bt close au tag precedemment crée
@@ -324,7 +353,7 @@ function populateAsf(blockId, asfData) {
       // 7 - Ajouter la reference du tag a la liste globale ()
       currentTags.push($tag);
       updateSearchResult(mainTextInput);
-      updateAdvancedSearchField(blockId);
+      updateAllAdvancedSearchFields();
     })
   );
 }
@@ -346,9 +375,9 @@ function changeTagPlaceholder([blockId, placeholder]) {
 }
 
 let tagSections = [
-  ["ingredientsBlock", "ingredient"],
-  ["appareilBlock", "appareil"],
-  ["ustensilesBlock", "ustensile"],
+  ["ingredientsBlock", "Ingrédients"],
+  ["appareilBlock", "Appareil"],
+  ["ustensilesBlock", "Ustensiles"],
 ];
 
 tagSections.forEach((tagsec) => {
@@ -378,115 +407,7 @@ function changeTagDisplayWithAsfSearch(blockId) {
 
 //#endregion
 
-//#region CONSOLE.LOG
-// recipes[0].ingredients[3].unit;
-// console.log(recipes[0].ingredients[3].unit);
-//#endregion
-
-//#region fonction populateAsf - étape par étape
-// // Peupler un block ASF (selon blockID)
-// // blockID : string servant à identifier le block à màj
-// // asfData : liste de données selon le block à màj = set(rawData)
-// function populateAsf(blockId, asfData) {
-//   // 1 - Recuperer l'element HTML (div) qui va contenir les données (ingredients, appareils, ustensils)
-//   let $asfRoot;
-//   if (blockIds.includes(blockId)) {
-//     $asfRoot = document.querySelector(`.${blockId} .asfList`);
-//   }
-//   // 2 - Vider l'element div (.asfList)
-//   $asfRoot.innerHTML = "";
-
-//   // 3 - Ajouter des elements a notre div (.asfList)
-//   let htmlToInject = "";
-//   asfData.forEach((data) => {
-//     // console.log("DL = ", data);
-//     htmlToInject += `<a href="#">${data}</a><br>`;
-//   });
-
-//   $asfRoot.innerHTML += htmlToInject;
-
-//   // Ajouter un event sur chaque lien contenu dans un asfList
-
-//   // 1 - Recuperer tous les liens de l'ASF list courant
-//   let $asfLinks = document.querySelectorAll(`.${blockId} .asfList a`);
-//   const $tagsCtr = document.querySelector(".tags");
-//   // 2 - Ajouter un evenement sur chaque lien
-//   $asfLinks.forEach((link) =>
-//     link.addEventListener("click", function (e) {
-//       //console.log("Click on asf element", link);
-//       updateSearchResult(mainTextInput, true);
-
-//       // 1 - Recuperer le text du lien
-//       let tagName = link.textContent;
-
-//       // 1b - Verifier si le tag est deja actif, si oui arreter l'execution ici (return)
-//       // find => Cherche un element dans une liste donnée qui correspond aux criteres
-//       if (currentTags.find((t) => t.innerText === tagName)) return;
-
-//       // 2 - Créer un nouveau tag
-//       let $tag = document.createElement("div");
-//       $tag.className = "tag";
-//       $tag.innerHTML = `
-//       <div class="tag-txt">${tagName}</div>
-//       `;
-
-//       // 3 - Creer le button close du tag
-//       let $tagCloseBtn = document.createElement("img");
-//       $tagCloseBtn.className = "tag-img";
-//       $tagCloseBtn.src = "../projet/img/cross.svg";
-//       $tagCloseBtn.alt = "closetag";
-
-//       // 4 - Ajouter le bt close au tag precedemment crée
-//       $tag.appendChild($tagCloseBtn);
-
-//       // 5 - Ajouter un event pour le tag créé (Close btn)
-//       $tagCloseBtn.addEventListener("click", function (e) {
-//         $tag.remove();
-//         // filter : supprime dans une liste les elements ne correspondants pas aux criteres
-//         currentTags = currentTags.filter((ct) => ct != $tag);
-//         console.log("Current tags = ", currentTags);
-//       });
-
-//       // 6 - Ajouter le tag a son conteneur (div)
-//       $tagsCtr.appendChild($tag);
-//       // 7 - Ajouter la reference du tag a la liste globale ()
-//       currentTags.push($tag);
-//       console.log("Current tags = ", currentTags);
-//     })
-//   );
-
-//   // Ajouter un event sur chaque bouton close de chaque tag
-// }
-//#endregion
-
-//#region Commentaires brouillon
-
-//--------- si besoin de conversion : -------------
-// const dataList = [...asfData];
-// console.log("DataList ", dataList);
-// console.log("DataList with ... --> ", [...asfData]);
-//const dL = [asfData[0],asfData[1],asfData[2]] soit un tableau de 30 elt
-//Versus :
-// const dl2 = [asfData];
-// console.log("DataList without ... --> ", [asfData]);
-//const dl2 = soit un tableau avec 1 seul elt (1tableau), contenant lui-même 30 elt
-//--------- fin de conversion -------------------//
-
-// function displayAllTags(tags) {
-//   tags.forEach((tag) => {
-//     tag.style.display = null;
-//   });
-// }
-
-// function filteredbyIngTags() {
-//   const filteredRecipes_ = [...filteredRecipes];
-//   filteredRecipes.forEach((rec) => {
-//     currentIngTags.forEach((tag) => {
-//       if (rec.ingredient.toLowerCase().match(tag)) {
-//       }
-//     });
-//   });
-// }
-// function filterByIng(filteredIng, currentIngTags) {}
-
-//#endregion
+updateAllAdvancedSearchFields();
+document.querySelectorAll(`.asfList`).forEach((element) => {
+  element.style.visibility = "hidden";
+});
