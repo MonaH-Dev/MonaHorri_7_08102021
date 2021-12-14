@@ -41,7 +41,7 @@ input[name=idea] {
 .recipe {
   width: 410px;
   height: max-content;
-  margin: 30px 0;
+  margin: 30px 10px;
   border-radius: 5px 5px 5px 5px;
 }
 .recipe .recipePic {
@@ -108,7 +108,7 @@ input[name=idea] {
   display: none;
 }
 
-/* APPARENCE */
+/* APPARENCES */
 /*#region*/
 .ListFilter {
   display: flex;
