@@ -28,7 +28,7 @@ $searchField.addEventListener("input", function (e) {
 });
 //#endregion
 
-//#region EVENT - CHEVRONS ET AUTRES ( !!!! A FAIRE !!!!! )
+//#region EVENT - CHEVRONS
 $allChevrons.forEach((ch) =>
   ch.addEventListener("click", function (e) {
     // console.log("Chevron clicked");
